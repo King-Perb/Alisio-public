@@ -4,4 +4,4 @@ Clickable concept of a members' car-swap app for a car club in Gran Canaria (Spa
 
 **All members, cars, numbers and places in this demo are examples.** It has no backend and stores nothing.
 
-Open: https://king-perb.github.io/alisio-public/
+Open: https://king-perb.github.io/Alisio-public/
