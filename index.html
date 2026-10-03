@@ -445,6 +445,8 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
         subs: { fees: '{n} socios · cuotas por nivel', points: '{p} pts comprados/mes a {e} €/pt', garage: '{h} entregas/mes en taller × {m} € de margen', events: '{n} eventos × {a} socios × {f} €', sponsors: '{n} colaboradores × {f} €/mes', damage: '{n} partes/mes × {f} €' },
         oneSwap: 'Un intercambio, paso a paso', swapEx: 'Porsche 911 · 2 días de fin de semana', driverPays: 'El socio paga', ownerGets: 'Propietario (70%)', clubKeeps: 'Club (30%)', clubKeepsNote: 'Los puntos que retiene el club salen de circulación: los socios que conducen más de lo que prestan compran puntos, y eso es dinero real para el club.', garageLine: 'Entrega + devolución en taller', garageSplit: 'taller {g} € · club {c} €',
         tiers: 'Niveles de socio', tier: 'Nivel', fee: 'Cuota/año', pts: 'Puntos/año', mix: 'Socios',
+        tierCats: ['Deportivo y GT', 'Deportivo, GT y Superdeportivo', 'Todas las categorías'], tierCatsNote: 'Cada nivel da acceso a unas categorías de coche. Además, cada propietario puede exigir un nivel mínimo para su coche.',
+        costs: 'Costes', insurance: 'Seguro por socio al año', insuranceLine: 'Seguro', insSub: '{n} socios × {f} €/año', afterIns: 'Resultado tras seguro', insNote: 'Cifra provisional: depende del presupuesto de una aseguradora para los intercambios entre socios.', afterInsShort: 'Tras seguro',
         assumptions: 'Supuestos', members: 'Socios en el piloto', plusShare: 'Socios Plus', eliteShare: 'Socios Élite', swaps: 'Intercambios por socio al mes', ptsSwap: 'Puntos medios por intercambio', bought: 'Puntos pagados con compra', ptPrice: 'Precio del punto extra', garageShare: 'Intercambios con entrega en taller', margin: 'Margen del club por entrega en taller', events: 'Eventos de pago al mes', eventPeople: 'Asistentes por evento', eventFee: 'Precio por asistente', sponsors: 'Colaboradores (seguros, detailing, talleres…)', sponsorFee: 'Aportación por colaborador', dmgRate: 'Intercambios con parte de daños', dmgFee: 'Tasa de gestión por parte',
         platformToggle: 'Mostrar reparto con la plataforma', platform: 'Cuota de la plataforma (software)', clubNet: 'Neto para el club', platformLine: 'Plataforma',
         existingFee: '¿El club ya cobra una cuota? Los niveles pueden sumarse a la cuota actual en lugar de sustituirla.',
@@ -512,6 +514,8 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
         subs: { fees: '{n} members · fees by tier', points: '{p} pts bought/month at €{e}/pt', garage: '{h} garage handovers/month × €{m} margin', events: '{n} events × {a} members × €{f}', sponsors: '{n} partners × €{f}/month', damage: '{n} reports/month × €{f}' },
         oneSwap: 'One swap, step by step', swapEx: 'Porsche 911 · 2 weekend days', driverPays: 'Member pays', ownerGets: 'Owner (70%)', clubKeeps: 'Club (30%)', clubKeepsNote: 'Points the club keeps leave circulation: members who drive more than they lend buy points, and that is real money for the club.', garageLine: 'Garage pick-up + return', garageSplit: 'garage €{g} · club €{c}',
         tiers: 'Membership tiers', tier: 'Tier', fee: 'Fee/year', pts: 'Points/year', mix: 'Members',
+        tierCats: ['Sports and GT', 'Sports, GT and Supercar', 'All categories'], tierCatsNote: 'Each tier gives access to certain car categories. Owners can also require a minimum tier for their car.',
+        costs: 'Costs', insurance: 'Insurance per member per year', insuranceLine: 'Insurance', insSub: '{n} members × €{f}/year', afterIns: 'Result after insurance', insNote: 'Provisional figure: depends on an insurer\u2019s quote for swaps between members.', afterInsShort: 'After insurance',
         assumptions: 'Assumptions', members: 'Members in the pilot', plusShare: 'Plus members', eliteShare: 'Élite members', swaps: 'Swaps per member per month', ptsSwap: 'Average points per swap', bought: 'Points paid by purchase', ptPrice: 'Price of an extra point', garageShare: 'Swaps with garage handover', margin: 'Club margin per garage handover', events: 'Paid events per month', eventPeople: 'Attendees per event', eventFee: 'Price per attendee', sponsors: 'Partners (insurance, detailing, garages…)', sponsorFee: 'Contribution per partner', dmgRate: 'Swaps with a damage report', dmgFee: 'Handling fee per report',
         platformToggle: 'Show split with the platform', platform: 'Platform fee (software)', clubNet: 'Net for the club', platformLine: 'Platform',
         existingFee: 'Does the club already charge a fee? Tiers can top up the current fee instead of replacing it.',
@@ -602,7 +606,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
     filter: 'all',
     balance: 1240,
     rsvp: { e1: true },
-    rev: { members: 40, plus: 35, elite: 15, swaps: 0.6, ptsSwap: 240, bought: 25, ptPrice: 1, garageShare: 40, margin: 10, events: 1, eventPeople: 15, eventFee: 25, sponsors: 2, sponsorFee: 150, dmgRate: 3, dmgFee: 50, showPlatform: false, platform: 10 },
+    rev: { members: 40, plus: 35, elite: 15, swaps: 0.6, ptsSwap: 240, bought: 25, ptPrice: 1, garageShare: 40, margin: 10, events: 1, eventPeople: 15, eventFee: 25, sponsors: 2, sponsorFee: 150, dmgRate: 3, dmgFee: 50, insurance: 500, showPlatform: false, platform: 10 },
     borrow: {},
     listed: { m4: true, supra: false },
     req: null,
@@ -1201,7 +1205,14 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
     const ys = root.querySelector('[data-out="year-s"]');
     if (ys && ys.textContent && ys.textContent !== euro(c.total * 12)) { ys.classList.remove('bump'); void ys.offsetWidth; ys.classList.add('bump'); }
     set('year-s', euro(c.total * 12));
-    set('month-s', `${euro(c.total)} ${R.perMonth}`);
+    const insYear = r.members * r.insurance;
+    const netYear = c.total * 12 - insYear;
+    set('net-s', euro(netYear));
+    set('ins-amt', `−${euro(insYear)}`);
+    set('ins-sub', fill(R.insSub, { n: r.members, f: fmt(r.insurance) }));
+    set('net-ins', euro(netYear));
+    set('s-insurance', `${fmt(r.insurance)} €`);
+    const ni = root.querySelector('[data-out="net-ins"]'); if (ni) ni.style.color = netYear < 0 ? 'var(--picon)' : '';
     REV_KEYS.forEach((k, i) => {
       set(`v-${k}`, euro(c.v[k]));
       set(`pc-${k}`, c.total ? `${Math.round(c.v[k] / c.total * 100)}%` : '0%');
@@ -1221,7 +1232,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
     });
     set('platform-v', `${r.platform}%`);
     set('platform-amt', `−${euro(fee * 12)} ${R.perYear}`);
-    set('net', `${euro((c.total - fee) * 12)} ${R.perYear}`);
+    set('net', `${euro(c.total * 12 - r.members * r.insurance - fee * 12)} ${R.perYear}`);
   };
 
   screens.revenue = () => {
@@ -1233,7 +1244,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
       body: `<div id="rev" style="display:flex;flex-direction:column;gap:14px">
       <div class="rev-sticky" id="rev-sticky" aria-hidden="true">
         <div class="l"><span>${R.estYear}</span><b data-out="year-s"></b></div>
-        <span class="r" data-out="month-s"></span>
+        <div class="l" style="text-align:right"><span>${R.afterInsShort}</span><b data-out="net-s" style="font-size:16px"></b></div>
       </div>
       <div class="card" id="rev-total">
         <span class="eyebrow">${R.estYear}</span>
@@ -1242,6 +1253,9 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
         <div class="legend">${REV_KEYS.map((k, i) => `
           <div class="lg"><span class="sw" style="background:var(--c${i + 1})"></span><span>${R.src[k]}</span><span class="v" data-out="v-${k}"></span><span class="pc" data-out="pc-${k}"></span><span class="sub" data-out="sub-${k}"></span></div>`).join('')}
         </div>
+        <div class="divider"></div>
+        <div class="lg"><span class="sw" style="background:var(--picon)"></span><span>${R.insuranceLine}</span><span class="v" data-out="ins-amt"></span><span class="pc"></span><span class="sub" data-out="ins-sub"></span></div>
+        <div class="between"><b>${R.afterIns}</b><b class="num" data-out="net-ins" style="font-size:17px"></b></div>
         <span class="assume">${R.estNote}</span>
       </div>
 
@@ -1260,8 +1274,9 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
         <span class="h3">${R.tiers}</span>
         <div class="tier-table">
           <span class="hd">${R.tier}</span><span class="hd r">${R.fee}</span><span class="hd r">${R.pts}</span><span class="hd r">${R.mix}</span>
-          ${TIERS.map(([n, f, p], i) => `<span>${n}</span><span class="r">${fmt(f)} €</span><span class="r">${fmt(p)}</span><span class="r" data-out="mix-${i}"></span>`).join('')}
+          ${TIERS.map(([n, f, p], i) => `<span>${n}<br><span class="assume">${R.tierCats[i]}</span></span><span class="r">${fmt(f)} €</span><span class="r">${fmt(p)}</span><span class="r" data-out="mix-${i}"></span>`).join('')}
         </div>
+        <span class="assume">${R.tierCatsNote}</span>
         <span class="assume">${R.existingFee}</span>
       </div>
 
@@ -1277,6 +1292,19 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
             <button class="step" aria-label="+" data-action="revStep" data-k="${sliderKey(sl)}" data-d="1">+</button>
           </div>
         </div>`).join('')}
+      </div>
+
+      <div class="card">
+        <span class="h3">${R.costs}</span>
+        <div class="slider">
+          <div class="between"><label for="rv-insurance">${R.insurance}</label><span data-out="s-insurance"></span></div>
+          <div class="srow">
+            <button class="step" aria-label="−" data-action="revStep" data-k="insurance" data-d="-1">−</button>
+            <input id="rv-insurance" type="range" min="0" max="3000" step="50" value="${r.insurance}" data-rev="insurance">
+            <button class="step" aria-label="+" data-action="revStep" data-k="insurance" data-d="1">+</button>
+          </div>
+        </div>
+        <span class="assume">${R.insNote}</span>
       </div>
 
       <div class="card">
