@@ -1,0 +1,1205 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Alisio Cars Club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: presenter notes column + phone device on desktop; full-bleed app on phones.
+   Palette from the island: basalt ink, Atlantic blue accent, picón (volcanic red) for alerts and highlights. */
+:root {
+  --bg: #eef0ee;
+  --panel: #f8f9f7;
+  --surface: #ffffff;
+  --surface-2: #f2f4f2;
+  --ink: #15191c;
+  --ink-2: #4b5459;
+  --ink-3: #7c868b;
+  --line: #dde2e0;
+  --accent: #0e5d78;
+  --accent-ink: #ffffff;
+  --accent-soft: #dcebf0;
+  --picon: #b4472c;
+  --picon-soft: #f6e3dc;
+  --good: #2f7a4b;
+  --good-soft: #dff0e4;
+  --warn: #9a6a12;
+  --warn-soft: #f6ecd4;
+  --device: #1b2023;
+  --shadow: 0 30px 60px -30px rgba(20, 30, 35, .45);
+  --f-display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --f-body: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1214; --panel: #14181a; --surface: #1a1f22; --surface-2: #22282b;
+    --ink: #e8ecea; --ink-2: #b3bcbf; --ink-3: #849095; --line: #2c3437;
+    --accent: #5fb0cc; --accent-ink: #0d1a1f; --accent-soft: #173643;
+    --picon: #e2795c; --picon-soft: #3a2119; --good: #6cc48f; --good-soft: #17301f;
+    --warn: #e0b45a; --warn-soft: #33290f; --device: #050607;
+    --shadow: 0 30px 60px -30px rgba(0, 0, 0, .8);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1214; --panel: #14181a; --surface: #1a1f22; --surface-2: #22282b;
+  --ink: #e8ecea; --ink-2: #b3bcbf; --ink-3: #849095; --line: #2c3437;
+  --accent: #5fb0cc; --accent-ink: #0d1a1f; --accent-soft: #173643;
+  --picon: #e2795c; --picon-soft: #3a2119; --good: #6cc48f; --good-soft: #17301f;
+  --warn: #e0b45a; --warn-soft: #33290f; --device: #050607;
+  --shadow: 0 30px 60px -30px rgba(0, 0, 0, .8);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 14px; line-height: 1.45; }
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.mono { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* ---------- stage ---------- */
+.stage { min-height: 100%; display: grid; grid-template-columns: minmax(0, 360px) auto; gap: 48px; justify-content: center; align-items: start; padding-block: 40px; padding-inline: 24px; }
+.notes { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 24px); display: grid; gap: 22px; padding-top: 8px; }
+.brand { display: flex; align-items: baseline; gap: 10px; }
+.brand-mark { font-family: var(--f-display); font-stretch: 125%; font-weight: 850; font-size: 30px; letter-spacing: -.01em; line-height: 1; }
+.brand-mark i { font-style: normal; color: var(--picon); }
+.brand-sub { font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .1em; }
+.concept-tag { font-size: 12px; color: var(--ink-2); border: 1px dashed var(--line); border-radius: 8px; padding: 8px 10px; }
+.ctrl { display: grid; gap: 8px; }
+.ctrl-label { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--ink-3); font-weight: 600; }
+.seg { display: inline-flex; background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; padding: 3px; gap: 2px; width: fit-content; }
+.seg button { border: 0; background: transparent; padding: 6px 14px; border-radius: 999px; font-weight: 600; font-size: 13px; color: var(--ink-2); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.model-toggles { display: grid; gap: 6px; }
+.mtoggle { display: flex; align-items: center; gap: 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; text-align: left; width: 100%; }
+.mtoggle .box { width: 18px; height: 18px; border-radius: 5px; border: 1.5px solid var(--ink-3); display: grid; place-items: center; flex: none; }
+.mtoggle[aria-pressed="true"] .box { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.mtoggle .box svg { width: 12px; height: 12px; opacity: 0; }
+.mtoggle[aria-pressed="true"] .box svg { opacity: 1; }
+.mtoggle b { font-weight: 600; font-size: 13px; }
+.note-card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: grid; gap: 8px; }
+.note-card h3 { margin: 0; font-family: var(--f-display); font-stretch: 112%; font-weight: 750; font-size: 17px; text-wrap: balance; }
+.note-card p { margin: 0; color: var(--ink-2); max-width: 60ch; }
+.note-card ul { margin: 0; padding-left: 18px; color: var(--ink-2); display: grid; gap: 4px; }
+.mobile-bar { display: none; }
+
+/* ---------- device ---------- */
+.device { width: 390px; height: min(820px, calc(100dvh - 48px)); min-height: 640px; background: var(--device); border-radius: 52px; padding: 12px; box-shadow: var(--shadow); position: relative; }
+.device::before { content: ""; position: absolute; top: 22px; left: 50%; transform: translateX(-50%); width: 110px; height: 30px; background: var(--device); border-radius: 20px; z-index: 5; }
+.screen { width: 100%; height: 100%; background: var(--bg); border-radius: 40px; overflow: hidden; display: flex; flex-direction: column; position: relative; }
+.statusbar { height: 50px; flex: none; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 30px 6px; font-size: 13px; font-weight: 600; }
+.appbar { flex: none; display: flex; align-items: center; gap: 10px; padding: 6px 18px 10px; min-height: 48px; }
+.appbar h1 { margin: 0; font-family: var(--f-display); font-stretch: 118%; font-weight: 800; font-size: 22px; letter-spacing: -.01em; flex: 1; min-width: 0; text-wrap: balance; }
+.iconbtn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); display: grid; place-items: center; flex: none; }
+.iconbtn svg { width: 18px; height: 18px; }
+.main { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 4px 16px 24px; display: flex; flex-direction: column; gap: 14px; }
+.main > * { flex-shrink: 0; }
+.tabbar { flex: none; display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid var(--line); background: var(--surface); padding: 6px 4px calc(10px + env(safe-area-inset-bottom, 0px)); }
+.tabbar.four { grid-template-columns: repeat(4, 1fr); }
+.tab { border: 0; background: transparent; display: grid; justify-items: center; gap: 2px; padding: 6px 0; font-size: 10.5px; font-weight: 600; color: var(--ink-3); }
+.tab svg { width: 22px; height: 22px; }
+.tab[aria-current="page"] { color: var(--accent); }
+.toast { position: absolute; left: 16px; right: 16px; bottom: 86px; background: var(--ink); color: var(--bg); border-radius: 12px; padding: 12px 14px; font-weight: 600; font-size: 13px; z-index: 20; transition: opacity .25s, transform .25s; }
+.toast[hidden] { display: none !important; }
+
+/* ---------- app components ---------- */
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px; display: grid; gap: 10px; }
+.card.tight { gap: 6px; }
+.row { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.row > .grow { flex: 1; min-width: 0; }
+.between { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.eyebrow { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--ink-3); font-weight: 600; }
+.h2 { font-family: var(--f-display); font-stretch: 112%; font-weight: 780; font-size: 18px; margin: 0; text-wrap: balance; }
+.h3 { font-weight: 650; font-size: 15px; margin: 0; }
+.muted { color: var(--ink-2); }
+.faint { color: var(--ink-3); font-size: 12.5px; }
+.pill { display: inline-flex; align-items: center; gap: 5px; border-radius: 999px; padding: 3px 9px; font-size: 11.5px; font-weight: 650; background: var(--surface-2); color: var(--ink-2); white-space: nowrap; }
+.pill.accent { background: var(--accent-soft); color: var(--accent); }
+.pill.good { background: var(--good-soft); color: var(--good); }
+.pill.warn { background: var(--warn-soft); color: var(--warn); }
+.pill.picon { background: var(--picon-soft); color: var(--picon); }
+.btn { border: 0; border-radius: 12px; padding: 12px 16px; font-weight: 650; background: var(--accent); color: var(--accent-ink); width: 100%; }
+.btn.secondary { background: var(--surface-2); color: var(--ink); border: 1px solid var(--line); }
+.btn.ghost { background: transparent; color: var(--accent); padding: 8px 0; width: auto; }
+.btn.small { padding: 8px 12px; font-size: 13px; width: auto; border-radius: 10px; }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn-row { display: flex; gap: 8px; }
+.btn-row > * { flex: 1; }
+.chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
+.chips::-webkit-scrollbar { display: none; }
+.chip { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 7px 12px; font-size: 13px; font-weight: 600; white-space: nowrap; color: var(--ink-2); }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.divider { height: 1px; background: var(--line); }
+.kv { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; font-size: 13.5px; }
+.kv dt { color: var(--ink-2); }
+.kv dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+.kv .total { font-size: 15px; padding-top: 6px; border-top: 1px solid var(--line); }
+
+/* hero / points */
+.points-card { background: var(--ink); color: var(--bg); border-radius: 20px; padding: 18px; display: grid; gap: 14px; position: relative; overflow: hidden; }
+.points-card::after { content: ""; position: absolute; right: -40px; top: -40px; width: 180px; height: 180px; border-radius: 50%; border: 22px solid color-mix(in srgb, var(--picon) 70%, transparent); opacity: .55; }
+.points-big { font-family: var(--f-display); font-stretch: 125%; font-weight: 850; font-size: 42px; line-height: 1; letter-spacing: -.02em; }
+.points-big small { font-size: 16px; font-weight: 700; letter-spacing: 0; margin-left: 4px; }
+.points-meta { display: flex; gap: 14px; font-size: 12.5px; opacity: .85; flex-wrap: wrap; position: relative; z-index: 1; }
+.tier-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; text-transform: uppercase; letter-spacing: .12em; font-weight: 700; position: relative; z-index: 1; }
+.tier-badge::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--picon); }
+
+/* car tiles */
+.car-art { border-radius: 12px; background: var(--surface-2); display: grid; place-items: center; aspect-ratio: 16 / 7; max-width: 100%; position: relative; overflow: hidden; }
+.car-art svg { width: 92%; height: auto; }
+.car-art.sm { aspect-ratio: 4 / 2.4; }
+.car-art.sm svg { width: 100%; }
+.car-art .plate { position: absolute; left: 10px; bottom: 8px; font-family: var(--f-mono); font-size: 10.5px; background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 1px 6px; color: var(--ink-2); }
+.car-art .cat { position: absolute; right: 10px; top: 8px; }
+.car-list { display: grid; gap: 12px; }
+.car-tile { text-align: left; border: 1px solid var(--line); background: var(--surface); border-radius: 16px; padding: 10px; display: grid; gap: 8px; width: 100%; }
+.car-name { font-family: var(--f-display); font-stretch: 110%; font-weight: 760; font-size: 16px; }
+.owner { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.avatar { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 700; color: #fff; flex: none; }
+.ptsday { font-family: var(--f-display); font-stretch: 115%; font-weight: 800; font-size: 17px; white-space: nowrap; }
+.ptsday small { font-size: 11px; font-weight: 600; color: var(--ink-3); }
+.spec-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.spec { background: var(--surface-2); border-radius: 10px; padding: 8px; display: grid; gap: 1px; }
+.spec b { font-size: 14px; font-variant-numeric: tabular-nums; }
+.spec span { font-size: 11px; color: var(--ink-3); }
+
+/* calendar strip */
+.cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.day { border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 6px 0; display: grid; justify-items: center; gap: 1px; font-size: 11px; color: var(--ink-3); }
+.day b { font-size: 15px; color: var(--ink); font-variant-numeric: tabular-nums; }
+.day.busy { background: repeating-linear-gradient(-45deg, var(--surface-2), var(--surface-2) 4px, transparent 4px, transparent 8px); color: var(--ink-3); cursor: not-allowed; }
+.day.busy b { color: var(--ink-3); text-decoration: line-through; }
+.day.weekend b { color: var(--picon); }
+.day[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.day[aria-pressed="true"] b { color: var(--accent-ink); }
+.day.inrange { background: var(--accent-soft); border-color: var(--accent-soft); }
+
+/* handover method options */
+.opt { border: 1.5px solid var(--line); background: var(--surface); border-radius: 14px; padding: 12px; display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; text-align: left; width: 100%; }
+.opt[aria-pressed="true"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent-soft) 55%, var(--surface)); }
+.opt .ico { grid-row: span 2; width: 38px; height: 38px; border-radius: 10px; background: var(--surface-2); display: grid; place-items: center; color: var(--accent); }
+.opt .ico svg { width: 20px; height: 20px; }
+.ico { display: inline-grid; place-items: center; }
+.ico svg { width: 20px; height: 20px; }
+.opt .t { font-weight: 650; }
+.opt .d { font-size: 12.5px; color: var(--ink-2); }
+.opt:disabled { opacity: .45; }
+
+/* list rows */
+.list { display: grid; }
+.li { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); text-align: left; background: transparent; border-left: 0; border-right: 0; border-top: 0; width: 100%; }
+.li:last-child { border-bottom: 0; }
+.li .grow { flex: 1; min-width: 0; }
+.li .amt { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.amt.plus { color: var(--good); }
+.amt.minus { color: var(--ink); }
+.chev { color: var(--ink-3); flex: none; width: 16px; height: 16px; }
+
+/* events */
+.event { display: grid; grid-template-columns: 58px 1fr; gap: 12px; align-items: start; }
+.datebox { background: var(--ink); color: var(--bg); border-radius: 12px; display: grid; justify-items: center; padding: 8px 0; line-height: 1.05; }
+.datebox b { font-family: var(--f-display); font-stretch: 120%; font-size: 24px; font-weight: 850; }
+.datebox span { font-size: 10.5px; text-transform: uppercase; letter-spacing: .1em; }
+.route-line { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--ink-2); flex-wrap: wrap; }
+.route-line i { width: 14px; height: 2px; background: var(--ink-3); display: inline-block; }
+
+/* inspection */
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.stepbar { height: 4px; border-radius: 4px; background: var(--line); }
+.stepbar.on { background: var(--accent); }
+.photo-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.shot { border: 1.5px dashed var(--line); background: var(--surface); border-radius: 12px; aspect-ratio: 4 / 3; max-width: 100%; display: grid; place-items: center; gap: 2px; padding: 6px; text-align: center; font-size: 12px; color: var(--ink-2); position: relative; overflow: hidden; }
+.shot svg.cam { width: 22px; height: 22px; color: var(--ink-3); }
+.shot.done { border-style: solid; border-color: var(--accent); background: linear-gradient(160deg, color-mix(in srgb, var(--accent) 22%, var(--surface-2)), var(--surface-2)); color: var(--ink); }
+.shot .stamp { position: absolute; left: 6px; bottom: 5px; right: 6px; font-family: var(--f-mono); font-size: 9.5px; color: var(--ink-2); text-align: left; }
+.shot .tick { position: absolute; right: 6px; top: 6px; width: 18px; height: 18px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; }
+.shot .tick svg { width: 11px; height: 11px; }
+.shot.flag { border-color: var(--picon); }
+.range { width: 100%; accent-color: var(--accent); }
+.input { width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 10px 12px; font: inherit; color: var(--ink); }
+.topview { display: grid; place-items: center; }
+.topview svg { width: 210px; height: auto; max-width: 100%; }
+.zone { fill: var(--surface-2); stroke: var(--ink-3); stroke-width: 1.2; cursor: pointer; transition: fill .15s; }
+.zone:hover { fill: var(--accent-soft); }
+.zone.pre { fill: var(--warn-soft); stroke: var(--warn); }
+.zone.new { fill: var(--picon-soft); stroke: var(--picon); stroke-width: 2; }
+.zone-label { font-size: 8px; fill: var(--ink-2); pointer-events: none; font-family: var(--f-body); }
+.ai-card { border: 1.5px solid var(--picon); background: color-mix(in srgb, var(--picon-soft) 60%, var(--surface)); border-radius: 14px; padding: 12px; display: grid; gap: 8px; }
+.sign { display: flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; background: var(--surface); width: 100%; text-align: left; }
+.sign .box { width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid var(--ink-3); display: grid; place-items: center; flex: none; }
+.sign[aria-pressed="true"] .box { background: var(--good); border-color: var(--good); color: #fff; }
+.sign .box svg { width: 14px; height: 14px; opacity: 0; }
+.sign[aria-pressed="true"] .box svg { opacity: 1; }
+
+/* club */
+.stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 10px; display: grid; gap: 2px; }
+.stat b { font-family: var(--f-display); font-stretch: 118%; font-size: 22px; font-weight: 820; font-variant-numeric: tabular-nums; }
+.stat span { font-size: 11px; color: var(--ink-3); }
+.compare { display: grid; gap: 10px; }
+.model-card { border: 1.5px solid var(--line); border-radius: 16px; padding: 12px; background: var(--surface); display: grid; gap: 8px; }
+.model-card.on { border-color: var(--accent); }
+.meter { display: grid; grid-template-columns: 88px 1fr; gap: 4px 10px; align-items: center; font-size: 12px; color: var(--ink-2); }
+.dots { display: flex; gap: 3px; }
+.dots i { width: 14px; height: 6px; border-radius: 3px; background: var(--line); display: block; }
+.dots i.on { background: var(--accent); }
+.proscons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px; }
+.proscons ul { margin: 0; padding-left: 14px; color: var(--ink-2); display: grid; gap: 2px; }
+.proscons b { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+.switch { width: 42px; height: 24px; border-radius: 999px; background: var(--line); border: 0; position: relative; flex: none; padding: 0; }
+.switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: var(--surface); transition: left .15s; box-shadow: 0 1px 2px rgba(0,0,0,.25); }
+.switch[aria-pressed="true"] { background: var(--accent); }
+.switch[aria-pressed="true"]::after { left: 21px; }
+.howto { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.howto div { background: var(--surface-2); border-radius: 12px; padding: 10px; display: grid; gap: 4px; font-size: 12px; color: var(--ink-2); }
+.howto b { font-family: var(--f-display); font-stretch: 120%; font-size: 13px; color: var(--ink); }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+/* ---------- phone-width: app goes full screen ---------- */
+@media (max-width: 860px) {
+  body { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+  .stage { display: flex; flex: 1; min-height: 0; padding: 0; align-items: stretch; }
+  .notes { display: none; }
+  .mobile-bar { display: flex; flex: none; position: relative; z-index: 30; gap: 8px; align-items: center; justify-content: space-between; padding: 8px 16px; background: var(--panel); border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  .mobile-bar .brand-mark { font-size: 20px; }
+  .device { width: 100%; flex: 1; height: auto; min-height: 0; border-radius: 0; padding: 0; box-shadow: none; background: transparent; }
+  .device::before { display: none; }
+  .screen { border-radius: 0; }
+  .statusbar { display: none; }
+}
+</style>
+
+<div class="mobile-bar">
+  <span class="brand-mark">Alisio<i>.</i></span>
+  <div class="row" style="gap:6px">
+    <div class="seg" role="group" aria-label="Language">
+      <button data-action="lang" data-v="es" id="m-lang-es">ES</button>
+      <button data-action="lang" data-v="en" id="m-lang-en">EN</button>
+    </div>
+    <div class="seg" role="group" aria-label="View">
+      <button data-action="mode" data-v="member" id="m-mode-member"></button>
+      <button data-action="mode" data-v="club" id="m-mode-club"></button>
+    </div>
+  </div>
+</div>
+
+<div class="stage">
+  <aside class="notes" id="notes"></aside>
+  <div class="device">
+    <div class="screen">
+      <div class="statusbar"><span class="mono">9:41</span><span>5G ▮▮▮</span></div>
+      <div class="appbar" id="appbar"></div>
+      <div class="main" id="main"></div>
+      <nav class="tabbar" id="tabbar"></nav>
+      <div class="toast" id="toast" hidden></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  // ---------------------------------------------------------------- icons
+  const I = {
+    home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>',
+    car: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16v-3l2-5a2 2 0 0 1 2-1h10a2 2 0 0 1 2 1l2 5v3"/><path d="M3 16h18v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1H7v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><circle cx="7.5" cy="13.5" r=".8"/><circle cx="16.5" cy="13.5" r=".8"/></svg>',
+    swap: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4L3 8l4 4"/><path d="M3 8h14"/><path d="M17 20l4-4-4-4"/><path d="M21 16H7"/></svg>',
+    flag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></svg>',
+    garage: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V9l9-5 9 5v12"/><path d="M7 21v-8h10v8"/><path d="M7 17h10"/></svg>',
+    gauge: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18a9 9 0 1 1 16 0"/><path d="M12 14l4-5"/></svg>',
+    inbox: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l3-8h12l3 8v6H3z"/><path d="M3 13h5l1 2h6l1-2h5"/></svg>',
+    clip: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="M9 11l2 2 4-4"/><path d="M9 17h6"/></svg>',
+    cog: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
+    back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
+    chev: '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>',
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>',
+    cam: '<svg class="cam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>',
+    wrench: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3 17.8V21h3.2l6.3-6.3a4 4 0 0 0 5.2-5.4l-2.5 2.5-2.5-.6-.6-2.5z"/></svg>',
+    shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>',
+    people: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2.5 20a5.5 5.5 0 0 1 11 0"/><path d="M14 20a4 4 0 0 1 7.5-2"/></svg>',
+    pin: '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>',
+    spark: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6"/></svg>',
+    info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8v.01"/></svg>',
+  };
+
+  // ---------------------------------------------------------------- i18n
+  const T = {
+    es: {
+      member: 'Socio', club: 'Club', language: 'Idioma', view: 'Vista', modelsLabel: 'Modelos de inspección activos',
+      concept: 'Concepto de app · todos los datos, nombres y coches son de ejemplo.',
+      brandSub: 'Cars Club · Gran Canaria',
+      tabs: { home: 'Inicio', explore: 'Explorar', swaps: 'Intercambios', events: 'Rutas', garage: 'Mi garaje', panel: 'Panel', requests: 'Solicitudes', inspections: 'Inspecciones', settings: 'Ajustes' },
+      hello: 'Hola, Carlos', pts: 'pts', perDay: '/día', tier: 'Socio Plus', expiring: 'caducan el 31 dic', earnedYear: 'ganados este año',
+      howTitle: 'Cómo funciona', how: [['Comparte', 'Pon tu coche a disposición de otros socios verificados.'], ['Gana puntos', 'Cada día que lo conduce otro socio sumas puntos.'], ['Conduce', 'Usa tus puntos para probar los coches de otros.']],
+      hide: 'Ocultar', nextSwap: 'Tu próximo intercambio', yourCar: 'Tu coche', nextRoute: 'Próxima ruta del club',
+      lentTo: 'prestado a', until: 'hasta', earning: 'ganarás', seeAll: 'Ver todo',
+      explore: 'Explorar coches', all: 'Todos', available: 'Disponible', km: 'km', search: 'Coches de socios en Gran Canaria',
+      cat: { A: 'Deportivo', B: 'GT', C: 'Superdeportivo', D: 'Exótico' }, classic: 'Clásico',
+      ownerSince: 'Socio desde', swapsDone: 'intercambios', rating: 'valoración',
+      power: 'CV', zeroTo: '0–100', gearbox: 'Cambio', manual: 'Manual', auto: 'Automático', seats: 'Plazas', year: 'Año', location: 'Ubicación',
+      availability: 'Disponibilidad', ownerRules: 'Normas del propietario', requestSwap: 'Solicitar intercambio',
+      kmIncluded: 'km/día incluidos', minTier: 'Nivel mínimo', garageOnly: 'Entrega solo en taller asociado',
+      reqTitle: 'Solicitar', chooseDates: 'Elige las fechas', startDay: 'Día de recogida', duration: 'Duración', days: 'días', day: 'día',
+      handover: '¿Cómo se hace la entrega?', costTitle: 'Coste en puntos', base: 'Base', weekend: 'Fin de semana ×1,5', season: 'Temporada alta ×1,2',
+      total: 'Total', balanceAfter: 'Saldo después', ownerGets: 'recibe el 70%', send: 'Enviar solicitud', notEnough: 'No tienes puntos suficientes',
+      sent: 'Solicitud enviada. Te avisaremos cuando el propietario responda.',
+      models: { garage: 'Taller asociado', club: 'Equipo del club', peer: 'Entre socios' },
+      modelDesc: {
+        garage: 'Entrega y devolución en un taller colaborador. Un técnico hace las fotos y una revisión rápida.',
+        club: 'Un miembro del equipo del club entrega el coche y hace la inspección.',
+        peer: 'Os encontráis los dos socios. La app os guía en las fotos y ambos firmáis.',
+      },
+      modelWhere: { garage: 'Taller asociado (ejemplo) · Las Palmas', club: 'Punto de encuentro del club · Las Palmas', peer: 'Lugar acordado entre socios' },
+      swapsTitle: 'Intercambios', upcoming: 'Próximos', active: 'En curso', past: 'Anteriores', pending: 'Pendiente del propietario', confirmed: 'Confirmado', inProgress: 'En curso', done: 'Completado', approvalClub: 'Pendiente del club',
+      checkout: 'Inspección de entrega', checkin: 'Inspección de devolución', startInspection: 'Empezar inspección',
+      inspTitle: 'Inspección', step: 'Paso', steps: ['Fotos', 'Datos', 'Daños', 'Firma'],
+      photosHint: 'Toca cada recuadro para hacer la foto. La app guarda hora y ubicación.',
+      angles: ['Frontal', 'Lateral izq.', 'Trasera', 'Lateral dcho.', 'Llantas', 'Interior', 'Cuentakilómetros', 'Maletero'],
+      next: 'Siguiente', prev: 'Atrás', odometer: 'Kilometraje', fuel: 'Combustible', fuelOut: 'Nivel en la entrega', drivenKm: 'km recorridos', included: 'incluidos', extraKm: 'km extra',
+      damagesHint: 'Toca una zona para marcar un daño. Amarillo = ya existía en la entrega.',
+      preexisting: 'Ya existía', newDamage: 'Daño nuevo', zones: { front: 'Paragolpes del.', hood: 'Capó', roof: 'Techo', trunk: 'Maletero', rear: 'Paragolpes tras.', left: 'Lateral izq.', right: 'Lateral dcho.', wfl: 'Llanta DI', wfr: 'Llanta DD', wrl: 'Llanta TI', wrr: 'Llanta TD' },
+      aiTitle: 'Sugerencia automática (opcional)', aiText: 'Posible rozadura nueva en la llanta trasera derecha comparando con la foto de entrega.', confidence: 'confianza', confirmDmg: 'Confirmar daño', dismiss: 'Descartar',
+      aiConfirmed: 'Daño confirmado. Se abrirá un parte con el club.', aiDismissed: 'Sugerencia descartada.',
+      signHint: 'Ambas partes confirman el estado del coche.', iConfirm: 'Confirmo el estado del coche', finish: 'Cerrar inspección', inspDone: 'Inspección guardada. Ambas partes reciben una copia.',
+      performedBy: 'Realiza la inspección',
+      eventsTitle: 'Rutas y eventos', going: 'Voy', join: 'Apuntarme', attendees: 'socios apuntados', meeting: 'Salida', borrowForRoute: 'Quiero conducir el coche de otro socio en esta ruta', routeKm: 'km de ruta',
+      garageTitle: 'Mi garaje', myCars: 'Mis coches', listed: 'Disponible para intercambio', notListed: 'Solo para mí', addCar: 'Añadir un coche', ledger: 'Historial de puntos', verification: 'Verificación', verified: 'Verificado',
+      idDoc: 'DNI', licence: 'Carné de conducir', insurance: 'Seguro del coche', earnings: 'Puntos ganados prestando', blockDates: 'Bloquear fechas para uso propio',
+      ledgerTitle: 'Historial de puntos', addCarTitle: 'Añadir un coche', addCarHint: 'El club revisa el coche y lo activa tras la primera inspección.', make: 'Marca y modelo', plate: 'Matrícula', submitCar: 'Enviar al club', carSent: 'Coche enviado. El club te contactará para la inspección inicial.',
+      panelTitle: 'Panel del club', membersStat: 'socios', carsStat: 'coches activos', swapsStat: 'intercambios este mes',
+      todayQueue: 'Hoy', openCases: 'Partes abiertos', reqTitle2: 'Solicitudes', newMember: 'Nuevo socio', swapRequest: 'Intercambio', approve: 'Aprobar', decline: 'Rechazar', approved: 'Aprobado', declined: 'Rechazado',
+      firstSwap: 'Primer intercambio del socio · coche exótico', ownsCar: 'Propietario de',
+      inspQueue: 'Inspecciones', staffNeeded: 'Necesita personal', noStaff: 'Sin personal', settingsTitle: 'Ajustes del club',
+      chooseModels: 'Elegid cómo se inspeccionan los coches. Podéis activar varios y dejar que el socio elija.',
+      cost: 'Coste', trust: 'Confianza', effort: 'Trabajo del club', speed: 'Flexibilidad', pros: 'Ventajas', cons: 'Inconvenientes', enabled: 'Activo',
+      pc: {
+        garage: [['Tercero neutral y profesional', 'Revisión técnica rápida', 'Custodia de llaves'], ['Coste por entrega (aprox. 25–40 €)', 'Horario y ubicación fijos']],
+        club: [['Control total del club', 'Experiencia premium', 'Ideal para coches exóticos'], ['Necesita personal', 'Hay que coordinar agenda']],
+        peer: [['Sin coste', 'Flexible: cuando y donde queráis', 'Se basa en la confianza del club'], ['Más discusiones si hay daños', 'Depende de que ambos hagan bien las fotos']],
+      },
+      recommend: 'Sugerencia para el piloto', recommendText: 'Entre socios por defecto, y taller asociado obligatorio para coches Superdeportivo y Exótico.',
+      catRule: 'Taller obligatorio para Superdeportivo y Exótico',
+      demoReset: 'Reiniciar demo', disabledModel: 'Desactivado por el club',
+    },
+    en: {
+      member: 'Member', club: 'Club', language: 'Language', view: 'View', modelsLabel: 'Active inspection models',
+      concept: 'App concept · all data, names and cars are examples.',
+      brandSub: 'Cars Club · Gran Canaria',
+      tabs: { home: 'Home', explore: 'Explore', swaps: 'Swaps', events: 'Drives', garage: 'My garage', panel: 'Dashboard', requests: 'Requests', inspections: 'Inspections', settings: 'Settings' },
+      hello: 'Hi, Carlos', pts: 'pts', perDay: '/day', tier: 'Plus member', expiring: 'expire on 31 Dec', earnedYear: 'earned this year',
+      howTitle: 'How it works', how: [['Share', 'Make your car available to other verified members.'], ['Earn points', 'Every day another member drives it, you earn points.'], ['Drive', 'Use your points to try other members’ cars.']],
+      hide: 'Hide', nextSwap: 'Your next swap', yourCar: 'Your car', nextRoute: 'Next club drive',
+      lentTo: 'lent to', until: 'until', earning: 'you’ll earn', seeAll: 'See all',
+      explore: 'Explore cars', all: 'All', available: 'Available', km: 'km', search: 'Members’ cars in Gran Canaria',
+      cat: { A: 'Sports', B: 'GT', C: 'Supercar', D: 'Exotic' }, classic: 'Classic',
+      ownerSince: 'Member since', swapsDone: 'swaps', rating: 'rating',
+      power: 'hp', zeroTo: '0–100', gearbox: 'Gearbox', manual: 'Manual', auto: 'Automatic', seats: 'Seats', year: 'Year', location: 'Location',
+      availability: 'Availability', ownerRules: 'Owner’s rules', requestSwap: 'Request swap',
+      kmIncluded: 'km/day included', minTier: 'Minimum tier', garageOnly: 'Handover at partner garage only',
+      reqTitle: 'Request', chooseDates: 'Choose your dates', startDay: 'Pick-up day', duration: 'Duration', days: 'days', day: 'day',
+      handover: 'How is the handover done?', costTitle: 'Cost in points', base: 'Base', weekend: 'Weekend ×1.5', season: 'High season ×1.2',
+      total: 'Total', balanceAfter: 'Balance after', ownerGets: 'receives 70%', send: 'Send request', notEnough: 'You don’t have enough points',
+      sent: 'Request sent. We’ll let you know when the owner replies.',
+      models: { garage: 'Partner garage', club: 'Club team', peer: 'Between members' },
+      modelDesc: {
+        garage: 'Pick-up and return at a partner garage. A technician takes the photos and does a quick check.',
+        club: 'A member of the club team hands over the car and does the inspection.',
+        peer: 'The two members meet. The app guides you through the photos and you both sign.',
+      },
+      modelWhere: { garage: 'Partner garage (example) · Las Palmas', club: 'Club meeting point · Las Palmas', peer: 'Place agreed between members' },
+      swapsTitle: 'Swaps', upcoming: 'Upcoming', active: 'In progress', past: 'Past', pending: 'Waiting for owner', confirmed: 'Confirmed', inProgress: 'In progress', done: 'Completed', approvalClub: 'Waiting for club',
+      checkout: 'Pick-up inspection', checkin: 'Return inspection', startInspection: 'Start inspection',
+      inspTitle: 'Inspection', step: 'Step', steps: ['Photos', 'Readings', 'Damage', 'Sign'],
+      photosHint: 'Tap each box to take the photo. The app records time and location.',
+      angles: ['Front', 'Left side', 'Rear', 'Right side', 'Wheels', 'Interior', 'Odometer', 'Boot'],
+      next: 'Next', prev: 'Back', odometer: 'Odometer', fuel: 'Fuel', fuelOut: 'Level at pick-up', drivenKm: 'km driven', included: 'included', extraKm: 'extra km',
+      damagesHint: 'Tap an area to mark damage. Yellow = already there at pick-up.',
+      preexisting: 'Pre-existing', newDamage: 'New damage', zones: { front: 'Front bumper', hood: 'Bonnet', roof: 'Roof', trunk: 'Boot lid', rear: 'Rear bumper', left: 'Left side', right: 'Right side', wfl: 'Wheel FL', wfr: 'Wheel FR', wrl: 'Wheel RL', wrr: 'Wheel RR' },
+      aiTitle: 'Automatic suggestion (optional)', aiText: 'Possible new scuff on the rear right wheel compared with the pick-up photo.', confidence: 'confidence', confirmDmg: 'Confirm damage', dismiss: 'Dismiss',
+      aiConfirmed: 'Damage confirmed. A damage report will be opened with the club.', aiDismissed: 'Suggestion dismissed.',
+      signHint: 'Both sides confirm the car’s condition.', iConfirm: 'I confirm the car’s condition', finish: 'Close inspection', inspDone: 'Inspection saved. Both sides get a copy.',
+      performedBy: 'Inspection done by',
+      eventsTitle: 'Drives & events', going: 'Going', join: 'Join', attendees: 'members going', meeting: 'Start', borrowForRoute: 'I’d like to drive another member’s car on this drive', routeKm: 'km route',
+      garageTitle: 'My garage', myCars: 'My cars', listed: 'Available for swaps', notListed: 'Just for me', addCar: 'Add a car', ledger: 'Points history', verification: 'Verification', verified: 'Verified',
+      idDoc: 'ID card', licence: 'Driving licence', insurance: 'Car insurance', earnings: 'Points earned lending', blockDates: 'Block dates for my own use',
+      ledgerTitle: 'Points history', addCarTitle: 'Add a car', addCarHint: 'The club reviews the car and activates it after the first inspection.', make: 'Make and model', plate: 'Plate', submitCar: 'Send to club', carSent: 'Car sent. The club will contact you for the first inspection.',
+      panelTitle: 'Club dashboard', membersStat: 'members', carsStat: 'active cars', swapsStat: 'swaps this month',
+      todayQueue: 'Today', openCases: 'Open damage reports', reqTitle2: 'Requests', newMember: 'New member', swapRequest: 'Swap', approve: 'Approve', decline: 'Decline', approved: 'Approved', declined: 'Declined',
+      firstSwap: 'Member’s first swap · exotic car', ownsCar: 'Owns a',
+      inspQueue: 'Inspections', staffNeeded: 'Needs staff', noStaff: 'No staff', settingsTitle: 'Club settings',
+      chooseModels: 'Choose how cars are inspected. You can turn on several and let the member pick.',
+      cost: 'Cost', trust: 'Trust', effort: 'Club workload', speed: 'Flexibility', pros: 'Pros', cons: 'Cons', enabled: 'On',
+      pc: {
+        garage: [['Neutral, professional third party', 'Quick technical check', 'Keeps the keys'], ['Cost per handover (about €25–40)', 'Fixed hours and location']],
+        club: [['Full club control', 'Premium experience', 'Ideal for exotic cars'], ['Needs staff', 'Scheduling to coordinate']],
+        peer: [['Free', 'Flexible: whenever and wherever', 'Builds on the club’s trust'], ['More disputes if there is damage', 'Relies on both taking good photos']],
+      },
+      recommend: 'Suggestion for the pilot', recommendText: 'Between members by default, with the partner garage required for Supercar and Exotic cars.',
+      catRule: 'Garage required for Supercar and Exotic',
+      demoReset: 'Reset demo', disabledModel: 'Turned off by the club',
+    },
+  };
+
+  // presenter notes per screen
+  const NOTES = {
+    es: {
+      home: ['Inicio del socio', 'Saldo de puntos, nivel, el próximo intercambio y la próxima ruta. También muestra que tu propio coche te está generando puntos.', ['Los puntos se ganan prestando tu coche', 'Cada nivel recibe además puntos anuales', 'Aviso de puntos que caducan']],
+      explore: ['Coches de los socios', 'Todos los coches son de socios verificados de Gran Canaria. El precio en puntos depende de la categoría del coche.', ['Filtro por categoría', 'Ubicación por municipio', 'Valoración del propietario']],
+      car: ['Ficha del coche', 'Datos del coche, del propietario, calendario de disponibilidad y las normas que pone el propietario.', ['El propietario decide km/día y nivel mínimo', 'Días bloqueados por uso propio', 'Fines de semana marcados: cuestan más']],
+      request: ['Solicitud de intercambio', 'El socio elige fechas y cómo será la entrega. Aquí aparecen los modelos de inspección que el club haya activado.', ['Coste calculado al momento', 'El propietario recibe el 70% de los puntos', 'Cambiad los modelos activos en el panel lateral']],
+      swaps: ['Mis intercambios', 'Intercambios pendientes, en curso y anteriores, con su estado.', ['El propietario aprueba cada solicitud', 'Las primeras solicitudes de coches exóticos las aprueba el club']],
+      swap: ['Detalle del intercambio', 'Dónde y cómo se hace la entrega, y acceso a las inspecciones.', []],
+      inspection: ['Inspección guiada', 'El mismo proceso sirve para los tres modelos: cambia quién lo hace (técnico del taller, equipo del club o los dos socios).', ['8 fotos obligatorias con hora y lugar', 'Kilometraje y combustible', 'Mapa de daños: existentes y nuevos', 'Sugerencia automática opcional al devolver']],
+      events: ['Rutas del club', 'Las salidas que el club ya organiza, ahora en la app. Un socio puede pedir conducir el coche de otro durante la ruta.', ['Inscripción con un toque', 'Ver quién va y con qué coche', 'Buena puerta de entrada al intercambio']],
+      garage: ['Mi garaje', 'Los coches del socio, si están disponibles, los puntos ganados y la verificación.', ['Activar o pausar cada coche', 'Bloquear fechas para uso propio', 'Coches solo para eventos']],
+      ledger: ['Historial de puntos', 'Cada movimiento queda registrado: puntos anuales, ganados, gastados y caducados.', []],
+      addCar: ['Añadir un coche', 'El socio propone su coche; el club lo revisa y lo activa tras la primera inspección.', []],
+      panel: ['Panel del club', 'Lo que el equipo del club ve a diario: actividad, inspecciones de hoy y partes de daños abiertos.', ['Datos de ejemplo para un piloto pequeño']],
+      requests: ['Solicitudes', 'Altas de socios nuevos y solicitudes que requieren aprobación del club.', ['El club mantiene el control de quién entra', 'Reglas automáticas: p. ej. primer intercambio exótico']],
+      inspections: ['Inspecciones', 'Agenda de entregas y devoluciones. Indica cuáles necesitan personal según el modelo elegido.', []],
+      settings: ['Elegid el modelo de inspección', 'Comparativa de los tres modelos. Se pueden combinar; lo que activéis aquí es lo que ve el socio al pedir un coche.', ['Taller asociado', 'Equipo del club', 'Entre socios']],
+    },
+    en: {
+      home: ['Member home', 'Points balance, tier, the next swap and the next club drive. It also shows your own car earning you points.', ['Points are earned by lending your car', 'Each tier also gets yearly points', 'Warning about expiring points']],
+      explore: ['Members’ cars', 'Every car belongs to a verified member in Gran Canaria. The points price depends on the car’s category.', ['Filter by category', 'Location by town', 'Owner rating']],
+      car: ['Car page', 'Car details, owner, availability calendar and the rules the owner sets.', ['Owner sets km/day and minimum tier', 'Days blocked for the owner’s use', 'Weekends highlighted: they cost more']],
+      request: ['Swap request', 'The member picks dates and how the handover works. Only the inspection models the club has turned on appear here.', ['Cost calculated instantly', 'The owner gets 70% of the points', 'Change the active models in the side panel']],
+      swaps: ['My swaps', 'Pending, in-progress and past swaps with their status.', ['The owner approves each request', 'First requests for exotic cars are approved by the club']],
+      swap: ['Swap details', 'Where and how the handover happens, and access to the inspections.', []],
+      inspection: ['Guided inspection', 'The same flow works for all three models; only who does it changes (garage technician, club team or the two members).', ['8 required photos with time and place', 'Odometer and fuel', 'Damage map: existing and new', 'Optional automatic suggestion on return']],
+      events: ['Club drives', 'The drives the club already runs, now in the app. A member can ask to drive another member’s car on a drive.', ['One-tap sign-up', 'See who’s going and in what', 'A natural way into swapping']],
+      garage: ['My garage', 'The member’s cars, whether they’re available, points earned and verification.', ['Turn each car on or off', 'Block dates for own use', 'Event-only cars']],
+      ledger: ['Points history', 'Every movement is recorded: yearly points, earned, spent and expired.', []],
+      addCar: ['Add a car', 'The member proposes a car; the club reviews it and activates it after the first inspection.', []],
+      panel: ['Club dashboard', 'What the club team sees every day: activity, today’s inspections and open damage reports.', ['Example data for a small pilot']],
+      requests: ['Requests', 'New member applications and requests that need club approval.', ['The club controls who gets in', 'Automatic rules, e.g. a first exotic swap']],
+      inspections: ['Inspections', 'Schedule of pick-ups and returns, showing which ones need staff depending on the model.', []],
+      settings: ['Choose the inspection model', 'Comparison of the three models. They can be combined; what you turn on here is what members see when requesting a car.', ['Partner garage', 'Club team', 'Between members']],
+    },
+  };
+
+  // ---------------------------------------------------------------- demo data
+  const MEMBERS = {
+    carlos: { name: 'Carlos M.', ini: 'CM', color: '#0e5d78', since: 2019 },
+    javier: { name: 'Javier R.', ini: 'JR', color: '#8a4b2f', since: 2014, swaps: 23, rating: 4.9 },
+    laura: { name: 'Laura S.', ini: 'LS', color: '#5a4a8a', since: 2017, swaps: 15, rating: 4.8 },
+    andres: { name: 'Andrés P.', ini: 'AP', color: '#2f6a4a', since: 2011, swaps: 9, rating: 5.0 },
+    marta: { name: 'Marta G.', ini: 'MG', color: '#9a3b5a', since: 2020, swaps: 12, rating: 4.7 },
+    dani: { name: 'Dani V.', ini: 'DV', color: '#6a6a20', since: 2016, swaps: 31, rating: 4.9 },
+    nuria: { name: 'Nuria T.', ini: 'NT', color: '#2a5a8a', since: 2021, swaps: 6, rating: 4.8 },
+    pablo: { name: 'Pablo H.', ini: 'PH', color: '#7a5a2a', since: 2026 },
+  };
+
+  const CARS = [
+    { id: 'p911', name: 'Porsche 911 Carrera S', gen: '992', owner: 'javier', cat: 'B', pts: 110, hp: 450, acc: '3,5 s', box: 'auto', seats: 4, year: 2021, town: 'Santa Brígida', color: '#c9ccc9', plate: '4821 LKP', kmDay: 200, minTier: 'Plus', garageOnly: false },
+    { id: 'gtr', name: 'Nissan GT-R', gen: 'R35', owner: 'laura', cat: 'B', pts: 100, hp: 570, acc: '2,8 s', box: 'auto', seats: 4, year: 2018, town: 'Telde', color: '#2b2f33', plate: '7710 KHT', kmDay: 200, minTier: 'Socio', garageOnly: false },
+    { id: 'r8', name: 'Audi R8 V10', gen: 'performance', owner: 'dani', cat: 'C', pts: 170, hp: 620, acc: '3,1 s', box: 'auto', seats: 2, year: 2020, town: 'Maspalomas', color: '#b8322a', plate: '1102 LBC', kmDay: 150, minTier: 'Plus', garageOnly: true },
+    { id: 'f488', name: 'Ferrari 488 GTB', gen: '', owner: 'andres', cat: 'D', pts: 260, hp: 670, acc: '3,0 s', box: 'auto', seats: 2, year: 2017, town: 'Las Palmas', color: '#d12a20', plate: '0488 JZF', kmDay: 120, minTier: 'Élite', garageOnly: true },
+    { id: 'gt4', name: 'Porsche 718 Cayman GT4', gen: '', owner: 'marta', cat: 'B', pts: 95, hp: 420, acc: '4,4 s', box: 'manual', seats: 2, year: 2022, town: 'Arucas', color: '#e9b824', plate: '3307 MCD', kmDay: 200, minTier: 'Socio', garageOnly: false },
+    { id: 'a110', name: 'Alpine A110 S', gen: '', owner: 'nuria', cat: 'A', pts: 65, hp: 300, acc: '4,2 s', box: 'auto', seats: 2, year: 2022, town: 'Agüimes', color: '#2a5fa8', plate: '5519 MFG', kmDay: 250, minTier: 'Socio', garageOnly: false },
+    { id: 'amg', name: 'Mercedes-AMG GT', gen: 'C190', owner: 'dani', cat: 'B', pts: 105, hp: 476, acc: '3,9 s', box: 'auto', seats: 2, year: 2019, town: 'Maspalomas', color: '#5d6b4a', plate: '8826 KZS', kmDay: 200, minTier: 'Plus', garageOnly: false },
+    { id: 'sl', name: 'Mercedes 280 SL Pagoda', gen: 'W113', owner: 'andres', cat: 'C', pts: 140, hp: 170, acc: '9,0 s', box: 'manual', seats: 2, year: 1969, town: 'Las Palmas', color: '#9fc3c9', plate: 'GC-1969', kmDay: 100, minTier: 'Plus', garageOnly: true, classic: true },
+    { id: 'm4', name: 'BMW M4 Competition', gen: 'G82', owner: 'carlos', cat: 'B', pts: 95, hp: 510, acc: '3,9 s', box: 'auto', seats: 4, year: 2022, town: 'Las Palmas', color: '#2f7a6a', plate: '6634 MBR', kmDay: 200, minTier: 'Socio', garageOnly: false, mine: true },
+    { id: 'supra', name: 'Toyota GR Supra', gen: 'A90', owner: 'carlos', cat: 'A', pts: 70, hp: 340, acc: '4,3 s', box: 'manual', seats: 2, year: 2023, town: 'Las Palmas', color: '#c8551f', plate: '2290 MNS', kmDay: 200, minTier: 'Socio', garageOnly: false, mine: true },
+  ];
+  const car = (id) => CARS.find((c) => c.id === id);
+
+  const DAY = 86400000;
+  const today = new Date(); today.setHours(12, 0, 0, 0);
+  const addDays = (d, n) => new Date(d.getTime() + n * DAY);
+  const isWeekend = (d) => d.getDay() === 0 || d.getDay() === 6;
+  const isHighSeason = (d) => { const m = d.getMonth(); return m >= 10 || m <= 3; }; // Nov–Apr
+
+  const fresh = () => ({
+    lang: 'es',
+    mode: 'member',
+    route: { name: 'home' },
+    history: [],
+    models: { garage: true, club: true, peer: true },
+    catRule: true,
+    showHow: true,
+    filter: 'all',
+    balance: 1240,
+    rsvp: { e1: true },
+    borrow: {},
+    listed: { m4: true, supra: false },
+    req: null,
+    insp: null,
+    swaps: [
+      { id: 's1', car: 'p911', from: addDays(today, -1), days: 3, model: 'garage', status: 'active', cost: 330, phase: 'checkin' },
+      { id: 's2', car: 'gtr', from: addDays(today, 6), days: 2, model: 'peer', status: 'confirmed', cost: 300, phase: 'checkout' },
+      { id: 's3', car: 'r8', from: addDays(today, 20), days: 1, model: 'garage', status: 'pending', cost: 170 },
+      { id: 's4', car: 'a110', from: addDays(today, -32), days: 2, model: 'peer', status: 'done', cost: 163 },
+    ],
+    clubReqs: [
+      { id: 'r1', kind: 'swap', who: 'laura', car: 'f488', from: addDays(today, 12), days: 1, state: null },
+      { id: 'r2', kind: 'member', who: 'pablo', car: 'Toyota GR Yaris', state: null },
+    ],
+  });
+  let S = fresh();
+  try { const l = localStorage.getItem('alisio-lang'); if (l === 'es' || l === 'en') S.lang = l; } catch (e) { /* storage unavailable */ }
+
+  const t = () => T[S.lang];
+  const fmt = (n) => new Intl.NumberFormat(S.lang === 'es' ? 'es-ES' : 'en-GB', { useGrouping: 'always' }).format(n);
+  const dLong = (d) => d.toLocaleDateString(S.lang === 'es' ? 'es-ES' : 'en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+  const dWk = (d) => d.toLocaleDateString(S.lang === 'es' ? 'es-ES' : 'en-GB', { weekday: 'narrow' });
+  const dMon = (d) => d.toLocaleDateString(S.lang === 'es' ? 'es-ES' : 'en-GB', { month: 'short' }).replace('.', '');
+  const enabledModels = () => ['garage', 'club', 'peer'].filter((m) => S.models[m]);
+
+  const EVENTS = () => [
+    { id: 'e1', date: addDays(today, 8), name: S.lang === 'es' ? 'Ruta de las Cumbres' : 'Summit Drive', route: ['Las Palmas', 'Teror', 'Roque Nublo', 'Tejeda'], km: 95, meet: S.lang === 'es' ? 'Las Palmas · 8:30' : 'Las Palmas · 8:30', going: 18 },
+    { id: 'e2', date: addDays(today, 22), name: S.lang === 'es' ? 'Costa Norte y Agaete' : 'North Coast & Agaete', route: ['Arucas', 'Gáldar', 'Agaete'], km: 70, meet: 'Arucas · 9:00', going: 11 },
+    { id: 'e3', date: addDays(today, 36), name: S.lang === 'es' ? 'Sur: Maspalomas – Mogán (GC-500)' : 'South: Maspalomas – Mogán (GC-500)', route: ['Maspalomas', 'Arguineguín', 'Puerto de Mogán'], km: 55, meet: 'Maspalomas · 9:30', going: 24 },
+  ];
+
+  // points cost for a car over a period
+  const quote = (c, from, days) => {
+    let base = 0; let weekend = 0; let season = 0;
+    for (let i = 0; i < days; i += 1) {
+      const d = addDays(from, i);
+      let p = c.pts; base += c.pts;
+      if (isWeekend(d)) { const extra = p * 0.5; weekend += extra; p += extra; }
+      if (isHighSeason(d)) { season += p * 0.2; }
+    }
+    return { base: Math.round(base), weekend: Math.round(weekend), season: Math.round(season), total: Math.round(base + weekend + season) };
+  };
+
+  // busy days for each car (deterministic from id)
+  const busy = (c, d) => {
+    const n = Math.floor((d - today) / DAY);
+    const seed = c.id.charCodeAt(0) + c.id.length;
+    return n >= 0 && ((n + seed) % 9 === 0 || (n + seed) % 9 === 1);
+  };
+
+  // ---------------------------------------------------------------- art
+  // Side-profile illustrations by body type (car faces left). viewBox 0 0 240 90, ground at y=70.
+  const BODY = {
+    rear: { // rear-engine fastback (911)
+      body: 'M16 64 C16 57 20 53 32 51 L68 46 C82 35 102 28 126 28 C150 28 168 34 188 47 C206 51 222 55 224 63 L224 70 L16 70 Z',
+      glass: 'M78 46 C90 37 106 32 126 32 C144 32 160 37 174 47 Z', pillar: 128, wheels: [56, 186],
+    },
+    mid: { // mid-engine (R8, 488, Cayman)
+      body: 'M12 65 C12 59 17 56 30 54 L76 48 C92 34 110 29 128 29 C142 29 152 32 160 39 L198 45 C216 47 228 53 228 63 L228 70 L12 70 Z',
+      glass: 'M86 47 C99 36 112 32 128 32 C139 32 147 35 153 41 L150 47 Z', pillar: 132, wheels: [52, 190], intake: 'M146 52 L178 49 L172 61 L150 61 Z',
+    },
+    gt: { // front-engine coupe (GT-R, M4, AMG GT, Supra)
+      body: 'M12 63 C12 56 18 52 32 50 L94 45 C110 33 126 29 144 29 C162 29 174 34 186 43 L214 47 C224 49 228 55 228 63 L228 70 L12 70 Z',
+      glass: 'M102 45 C116 35 130 32 144 32 C157 32 167 36 178 44 Z', pillar: 148, wheels: [52, 190],
+    },
+    gt4: { // four-seat coupe with a longer cabin (GT-R, M4)
+      body: 'M12 63 C12 56 18 52 32 50 L84 45 C100 33 118 28 140 28 C162 28 178 33 192 44 L214 47 C224 49 228 55 228 63 L228 70 L12 70 Z',
+      glass: 'M92 45 C106 35 122 31 140 31 C158 31 172 36 184 45 Z', pillar: 138, wheels: [52, 190],
+    },
+    classic: { // 1960s roadster with hardtop (280 SL)
+      body: 'M16 62 C16 56 20 53 30 53 L104 51 C110 40 118 36 128 36 L164 36 C170 36 174 40 178 51 L214 53 C222 54 226 57 226 63 L226 70 L16 70 Z',
+      glass: 'M112 51 C116 43 121 39 129 39 L162 39 C167 39 170 43 173 51 Z', pillar: 146, wheels: [56, 186], chrome: true,
+    },
+    compact: { // small mid-engine (Alpine A110)
+      body: 'M22 65 C22 58 27 54 40 53 L80 48 C94 35 110 30 126 30 C146 30 160 36 172 47 L198 51 C210 53 218 57 218 64 L218 70 L22 70 Z',
+      glass: 'M88 48 C100 38 112 33 126 33 C141 33 153 38 164 48 Z', pillar: 128, wheels: [60, 182],
+    },
+  };
+  const TYPE = { p911: 'rear', gtr: 'gt4', r8: 'mid', f488: 'mid', gt4: 'mid', a110: 'compact', amg: 'gt', sl: 'classic', m4: 'gt4', supra: 'gt' };
+  let artSeq = 0;
+  const wheel = (x, caliper) => `
+      <circle cx="${x}" cy="70" r="15" fill="#15181a"/>
+      <circle cx="${x}" cy="70" r="10.5" fill="#b9c0c3"/>
+      <circle cx="${x}" cy="70" r="10.5" fill="none" stroke="#7d868a" stroke-width="1"/>
+      ${[0, 72, 144, 216, 288].map((a) => `<line x1="${x}" y1="70" x2="${(x + 9.5 * Math.cos(a * Math.PI / 180)).toFixed(1)}" y2="${(70 + 9.5 * Math.sin(a * Math.PI / 180)).toFixed(1)}" stroke="#6b7478" stroke-width="2.2" stroke-linecap="round"/>`).join('')}
+      ${caliper ? `<rect x="${x - 7}" y="61" width="6" height="5" rx="1.5" fill="${caliper}"/>` : ''}
+      <circle cx="${x}" cy="70" r="2.6" fill="#3a4246"/>`;
+  const carSvg = (c) => {
+    const b = BODY[TYPE[c.id]] || BODY.gt;
+    const id = `cp${(artSeq += 1)}`;
+    const caliper = c.cat === 'C' || c.cat === 'D' ? '#d6a51e' : c.cat === 'B' ? '#c3322a' : null;
+    const rearX = b.wheels[1] + 34;
+    return `<svg viewBox="0 0 240 90" aria-hidden="true">
+      <defs><clipPath id="${id}"><path d="${b.body}"/></clipPath>
+        <linearGradient id="${id}g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".28"/></linearGradient>
+        <linearGradient id="${id}w" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9fb4bd"/><stop offset="1" stop-color="#26343a"/></linearGradient></defs>
+      <ellipse cx="120" cy="84" rx="104" ry="4.5" fill="currentColor" opacity=".14"/>
+      <path d="${b.body}" fill="${c.color}"/>
+      <g clip-path="url(#${id})">
+        <rect x="0" y="0" width="240" height="90" fill="url(#${id}g)"/>
+        <rect x="0" y="60" width="240" height="12" fill="#000" opacity=".18"/>
+        ${b.intake ? `<path d="${b.intake}" fill="#000" opacity=".35"/>` : ''}
+        <line x1="${b.pillar}" y1="47" x2="${b.pillar + 2}" y2="64" stroke="#000" stroke-opacity=".2" stroke-width="1"/>
+        <circle cx="${b.wheels[0]}" cy="70" r="18.5" fill="#000" opacity=".55"/>
+        <circle cx="${b.wheels[1]}" cy="70" r="18.5" fill="#000" opacity=".55"/>
+      </g>
+      <path d="${b.body}" fill="none" stroke="#000" stroke-opacity=".28" stroke-width="1"/>
+      <path d="${b.glass}" fill="url(#${id}w)"/>
+      <line x1="${b.pillar}" y1="${b.chrome ? 39 : 31}" x2="${b.pillar}" y2="${b.chrome ? 51 : 47}" stroke="${c.color}" stroke-width="3"/>
+      <ellipse cx="${b.chrome ? 22 : 19}" cy="${b.chrome ? 57 : 58}" rx="5" ry="2.6" fill="#f3f0e2" opacity=".95"/>
+      <rect x="${rearX - 6}" y="${b.chrome ? 54 : 52}" width="6" height="3.2" rx="1.2" fill="#c8261c"/>
+      ${b.chrome ? '<rect x="14" y="62" width="10" height="2.4" rx="1.2" fill="#d9dee0"/><rect x="216" y="62" width="11" height="2.4" rx="1.2" fill="#d9dee0"/>' : ''}
+      ${c.id === 'gt4' ? `<path d="M196 40 L222 38 L222 41 L198 43 Z" fill="#1d2124"/><line x1="206" y1="42" x2="204" y2="47" stroke="#1d2124" stroke-width="2"/>` : ''}
+      ${wheel(b.wheels[0], caliper)}${wheel(b.wheels[1], caliper)}
+    </svg>`;
+  };
+  // big = full-width art with plate and category; small thumbnails stay clean
+  const art = (c, big = true) => `<div class="car-art${big ? '' : ' sm'}">${carSvg(c)}${big ? `<span class="plate">${c.plate}</span><span class="cat">${catPill(c)}</span>` : ''}</div>`;
+  const catPill = (c) => `<span class="pill ${c.cat === 'D' ? 'picon' : c.cat === 'C' ? 'warn' : 'accent'}">${c.classic ? t().classic + ' · ' : ''}${t().cat[c.cat]}</span>`;
+  const avatar = (m) => `<span class="avatar" style="background:${MEMBERS[m].color}">${MEMBERS[m].ini}</span>`;
+  const modelIcon = (m) => (m === 'garage' ? I.wrench : m === 'club' ? I.shield : I.people);
+
+  // ---------------------------------------------------------------- navigation
+  const go = (name, params = {}) => { S.history.push(S.route); S.route = { name, ...params }; render(true); };
+  const back = () => { S.route = S.history.pop() || { name: S.mode === 'club' ? 'panel' : 'home' }; render(true); };
+  const tab = (name) => { S.history = []; S.route = { name }; render(true); };
+  let toastTimer;
+  const toast = (msg) => {
+    const el = document.getElementById('toast');
+    el.textContent = msg; el.hidden = false;
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => { el.hidden = true; }, 2600);
+  };
+
+  // ---------------------------------------------------------------- screens (member)
+  const screens = {};
+
+  screens.home = () => {
+    const s1 = S.swaps.find((s) => s.status === 'active') || S.swaps.find((s) => s.status === 'confirmed');
+    const c1 = s1 && car(s1.car);
+    const ev = EVENTS()[0];
+    const how = S.showHow ? `
+      <div class="card">
+        <div class="between"><span class="h3">${t().howTitle}</span><button class="btn ghost small" data-action="hideHow">${t().hide}</button></div>
+        <div class="howto">${t().how.map(([a, b]) => `<div><b>${a}</b>${b}</div>`).join('')}</div>
+      </div>` : '';
+    return {
+      title: t().hello,
+      body: `
+      <div class="points-card">
+        <span class="tier-badge">${t().tier}</span>
+        <div class="points-big num">${fmt(S.balance)}<small>${t().pts}</small></div>
+        <div class="points-meta"><span>320 ${t().pts} ${t().expiring}</span><span>+${fmt(1085)} ${t().pts} ${t().earnedYear}</span></div>
+      </div>
+      ${how}
+      ${s1 ? `
+      <button class="card" style="text-align:left" data-action="go" data-v="swap" data-id="${s1.id}">
+        <div class="between"><span class="eyebrow">${t().nextSwap}</span>${statusPill(s1)}</div>
+        <div class="row">
+          <div style="width:110px;flex:none">${art(c1, false)}</div>
+          <div class="grow"><div class="car-name">${c1.name}</div><div class="faint">${dLong(s1.from)} → ${dLong(addDays(s1.from, s1.days - 1))}</div><div class="faint">${t().models[s1.model]}</div></div>
+        </div>
+      </button>` : ''}
+      <div class="card">
+        <span class="eyebrow">${t().yourCar}</span>
+        <div class="row">
+          <div style="width:110px;flex:none">${art(car('m4'), false)}</div>
+          <div class="grow"><div class="car-name">BMW M4</div><div class="faint">${t().lentTo} Laura S. ${t().until} ${dLong(addDays(today, 2))}</div><div class="pill good" style="margin-top:4px">${t().earning} +200 ${t().pts}</div></div>
+        </div>
+      </div>
+      <button class="card" style="text-align:left" data-action="tab" data-v="events">
+        <span class="eyebrow">${t().nextRoute}</span>
+        <div class="event">
+          <div class="datebox"><b>${ev.date.getDate()}</b><span>${dMon(ev.date)}</span></div>
+          <div style="display:grid;gap:4px"><span class="h3">${ev.name}</span><div class="route-line">${ev.route.map((r, i) => (i ? '<i></i>' : '') + r).join('')}</div><span class="faint">${ev.going} ${t().attendees}</span></div>
+        </div>
+      </button>`,
+    };
+  };
+
+  screens.explore = () => {
+    const filters = ['all', 'A', 'B', 'C', 'D'];
+    const list = CARS.filter((c) => !c.mine && (S.filter === 'all' || c.cat === S.filter));
+    return {
+      title: t().explore,
+      body: `
+      <div class="faint">${t().search}</div>
+      <div class="chips">${filters.map((f) => `<button class="chip" aria-pressed="${S.filter === f}" data-action="filter" data-v="${f}">${f === 'all' ? t().all : t().cat[f]}</button>`).join('')}</div>
+      <div class="car-list">
+        ${list.map((c) => `
+        <button class="car-tile" data-action="go" data-v="car" data-id="${c.id}">
+          ${art(c)}
+          <div class="between"><div style="min-width:0"><div class="car-name">${c.name}</div><div class="route-line">${I.pin}${c.town}</div></div><div class="ptsday num">${c.pts}<small> ${t().pts}${t().perDay}</small></div></div>
+          <div class="owner">${avatar(c.owner)}<span class="faint">${MEMBERS[c.owner].name} · ★ ${MEMBERS[c.owner].rating.toFixed(1)}</span></div>
+        </button>`).join('')}
+      </div>`,
+    };
+  };
+
+  screens.car = () => {
+    const c = car(S.route.id); const m = MEMBERS[c.owner];
+    const days = Array.from({ length: 14 }, (_, i) => addDays(today, i + 1));
+    return {
+      title: c.name, back: true,
+      body: `
+      ${art(c, true)}
+      <div class="between"><div><div class="car-name" style="font-size:20px">${c.name}</div><div class="faint">${c.gen ? c.gen + ' · ' : ''}${c.year}</div></div><div class="ptsday num" style="font-size:22px">${c.pts}<small> ${t().pts}${t().perDay}</small></div></div>
+      <div class="spec-grid">
+        <div class="spec"><b>${c.hp}</b><span>${t().power}</span></div>
+        <div class="spec"><b>${c.acc}</b><span>${t().zeroTo}</span></div>
+        <div class="spec"><b>${c.box === 'manual' ? t().manual : t().auto}</b><span>${t().gearbox}</span></div>
+      </div>
+      <div class="card tight">
+        <div class="owner">${avatar(c.owner)}<div class="grow"><div class="h3">${m.name}</div><div class="faint">${t().ownerSince} ${m.since} · ${m.swaps} ${t().swapsDone} · ★ ${m.rating.toFixed(1)}</div></div></div>
+        <div class="route-line">${I.pin}${c.town}</div>
+      </div>
+      <div class="card">
+        <span class="h3">${t().availability}</span>
+        <div class="cal">${days.map((d) => `<div class="day ${busy(c, d) ? 'busy' : ''} ${isWeekend(d) ? 'weekend' : ''}"><span>${dWk(d)}</span><b>${d.getDate()}</b></div>`).join('')}</div>
+      </div>
+      <div class="card tight">
+        <span class="h3">${t().ownerRules}</span>
+        <dl class="kv">
+          <dt>${t().kmIncluded}</dt><dd>${c.kmDay}</dd>
+          <dt>${t().minTier}</dt><dd>${c.minTier}</dd>
+          ${c.garageOnly ? `<dt>${t().garageOnly}</dt><dd>✓</dd>` : ''}
+        </dl>
+      </div>
+      <button class="btn" data-action="startReq" data-id="${c.id}">${t().requestSwap}</button>`,
+    };
+  };
+
+  const allowedModels = (c) => {
+    const restricted = c.garageOnly || (S.catRule && (c.cat === 'C' || c.cat === 'D'));
+    return ['garage', 'club', 'peer'].map((m) => ({ m, on: S.models[m] && (!restricted || m === 'garage'), off: !S.models[m] }));
+  };
+
+  screens.request = () => {
+    const c = car(S.req.car);
+    const days = Array.from({ length: 14 }, (_, i) => addDays(today, i + 1));
+    const start = S.req.start;
+    const q = start ? quote(c, start, S.req.days) : null;
+    const opts = allowedModels(c);
+    if (!opts.find((o) => o.m === S.req.model && o.on)) { const first = opts.find((o) => o.on); S.req.model = first ? first.m : null; }
+    const rangeEnd = start ? addDays(start, S.req.days - 1) : null;
+    const overlaps = start && Array.from({ length: S.req.days }, (_, i) => addDays(start, i)).some((d) => busy(c, d));
+    const afford = q && q.total <= S.balance;
+    const canSend = q && afford && !overlaps && S.req.model;
+    return {
+      title: `${t().reqTitle} · ${c.name.split(' ').slice(0, 2).join(' ')}`, back: true,
+      body: `
+      <div class="card">
+        <span class="h3">${t().startDay}</span>
+        <div class="cal">${days.map((d) => {
+          const b = busy(c, d); const sel = start && d.getTime() === start.getTime();
+          const inr = start && d > start && d <= rangeEnd;
+          return `<button class="day ${b ? 'busy' : ''} ${isWeekend(d) ? 'weekend' : ''} ${inr ? 'inrange' : ''}" ${b ? 'disabled' : ''} aria-pressed="${!!sel}" data-action="pickDay" data-v="${d.getTime()}"><span>${dWk(d)}</span><b>${d.getDate()}</b></button>`;
+        }).join('')}</div>
+        <span class="h3">${t().duration}</span>
+        <div class="chips">${[1, 2, 3, 5, 7].map((n) => `<button class="chip" aria-pressed="${S.req.days === n}" data-action="pickDur" data-v="${n}">${n} ${n === 1 ? t().day : t().days}</button>`).join('')}</div>
+        ${overlaps ? `<span class="pill picon">${S.lang === 'es' ? 'Algún día ya está ocupado' : 'Some days are already taken'}</span>` : ''}
+      </div>
+      <div class="card">
+        <span class="h3">${t().handover}</span>
+        ${opts.map(({ m, on, off }) => `
+          <button class="opt" ${on ? '' : 'disabled'} aria-pressed="${S.req.model === m}" data-action="pickModel" data-v="${m}">
+            <span class="ico">${modelIcon(m)}</span>
+            <span class="t">${t().models[m]}</span>
+            <span class="d">${off ? t().disabledModel : on ? t().modelDesc[m] : t().garageOnly}</span>
+          </button>`).join('')}
+      </div>
+      ${q ? `
+      <div class="card">
+        <span class="h3">${t().costTitle}</span>
+        <dl class="kv">
+          <dt>${t().base} · ${S.req.days} × ${c.pts}</dt><dd>${fmt(q.base)}</dd>
+          ${q.weekend ? `<dt>${t().weekend}</dt><dd>+${fmt(q.weekend)}</dd>` : ''}
+          ${q.season ? `<dt>${t().season}</dt><dd>+${fmt(q.season)}</dd>` : ''}
+          <dt class="total">${t().total}</dt><dd class="total">${fmt(q.total)} ${t().pts}</dd>
+          <dt>${t().balanceAfter}</dt><dd>${fmt(S.balance - q.total)} ${t().pts}</dd>
+        </dl>
+        <div class="faint">${MEMBERS[c.owner].name} ${t().ownerGets} (${fmt(Math.round(q.total * 0.7))} ${t().pts}) · ${c.kmDay} ${t().kmIncluded}</div>
+        ${!afford ? `<span class="pill picon">${t().notEnough}</span>` : ''}
+      </div>` : ''}
+      <button class="btn" ${canSend ? '' : 'disabled'} data-action="sendReq">${t().send}</button>`,
+    };
+  };
+
+  const statusPill = (s) => {
+    const map = { pending: ['warn', t().pending], confirmed: ['accent', t().confirmed], active: ['good', t().inProgress], done: ['', t().done] };
+    const [cls, label] = map[s.status];
+    return `<span class="pill ${cls}">${label}</span>`;
+  };
+
+  screens.swaps = () => {
+    const groups = [
+      [t().active, S.swaps.filter((s) => s.status === 'active')],
+      [t().upcoming, S.swaps.filter((s) => s.status === 'confirmed' || s.status === 'pending')],
+      [t().past, S.swaps.filter((s) => s.status === 'done')],
+    ].filter(([, l]) => l.length);
+    return {
+      title: t().swapsTitle,
+      body: groups.map(([label, list]) => `
+        <span class="eyebrow">${label}</span>
+        ${list.map((s) => { const c = car(s.car); return `
+        <button class="card" style="text-align:left" data-action="go" data-v="swap" data-id="${s.id}">
+          <div class="row"><div style="width:96px;flex:none">${art(c, false)}</div>
+            <div class="grow"><div class="car-name" style="font-size:15px">${c.name}</div><div class="faint">${t().cat[c.cat]} · ${dLong(s.from)} · ${s.days} ${s.days === 1 ? t().day : t().days}</div><div class="row" style="gap:6px;margin-top:4px">${statusPill(s)}<span class="faint num">${fmt(s.cost)} ${t().pts}</span></div></div>
+          </div>
+        </button>`; }).join('')}`).join(''),
+    };
+  };
+
+  screens.swap = () => {
+    const s = S.swaps.find((x) => x.id === S.route.id); const c = car(s.car);
+    const canInspect = s.status === 'active' || s.status === 'confirmed';
+    return {
+      title: c.name, back: true,
+      body: `
+      ${art(c, true)}
+      <div class="between"><div class="car-name" style="font-size:19px">${c.name}</div>${statusPill(s)}</div>
+      <div class="card tight">
+        <dl class="kv">
+          <dt>${t().startDay}</dt><dd>${dLong(s.from)}</dd>
+          <dt>${t().duration}</dt><dd>${s.days} ${s.days === 1 ? t().day : t().days}</dd>
+          <dt>${t().total}</dt><dd>${fmt(s.cost)} ${t().pts}</dd>
+        </dl>
+        <div class="owner">${avatar(c.owner)}<span class="faint">${MEMBERS[c.owner].name}</span></div>
+      </div>
+      <div class="card">
+        <div class="opt" aria-pressed="true" style="cursor:default"><span class="ico">${modelIcon(s.model)}</span><span class="t">${t().models[s.model]}</span><span class="d">${t().modelWhere[s.model]}</span></div>
+        <div class="faint">${t().modelDesc[s.model]}</div>
+      </div>
+      ${canInspect ? `<button class="btn" data-action="startInsp" data-id="${s.id}">${s.phase === 'checkin' ? t().checkin : t().checkout}</button>` : ''}`,
+    };
+  };
+
+  screens.inspection = () => {
+    const s = S.swaps.find((x) => x.id === S.insp.swap); const c = car(s.car); const x = S.insp;
+    const isReturn = x.phase === 'checkin';
+    const stepsBar = `<div class="steps">${t().steps.map((_, i) => `<div class="stepbar ${i <= x.step ? 'on' : ''}"></div>`).join('')}</div>
+      <div class="between" style="flex-wrap:wrap"><span class="eyebrow">${t().step} ${x.step + 1}/4 · ${t().steps[x.step]}</span><span class="pill">${t().performedBy}: ${s.model === 'garage' ? (S.lang === 'es' ? 'técnico del taller' : 'garage technician') : s.model === 'club' ? (S.lang === 'es' ? 'equipo del club' : 'club team') : (S.lang === 'es' ? 'ambos socios' : 'both members')}</span></div>`;
+    let body = '';
+    let canNext = true;
+    if (x.step === 0) {
+      const done = x.photos.size;
+      canNext = done === 8;
+      body = `<div class="faint">${t().photosHint}</div>
+        <div class="photo-grid">${t().angles.map((a, i) => {
+          const ok = x.photos.has(i);
+          const flagged = isReturn && i === 4 && ok && x.ai !== 'dismissed';
+          return `<button class="shot ${ok ? 'done' : ''} ${flagged ? 'flag' : ''}" data-action="shot" data-v="${i}">
+            ${ok ? `<span class="tick">${I.check}</span>` : I.cam}<b style="font-size:12.5px">${a}</b>
+            ${ok ? `<span class="stamp">${new Date().toLocaleTimeString(S.lang === 'es' ? 'es-ES' : 'en-GB', { hour: '2-digit', minute: '2-digit' })} · 28.10°N 15.42°W</span>` : ''}
+          </button>`; }).join('')}</div>
+        <div class="between"><span class="faint num">${done}/8</span>${done < 8 ? `<button class="btn ghost small" data-action="allShots">${S.lang === 'es' ? 'Hacer todas (demo)' : 'Take all (demo)'}</button>` : ''}</div>`;
+    } else if (x.step === 1) {
+      const outKm = 18240; const driven = Math.max(0, x.km - outKm); const incl = c.kmDay * s.days;
+      body = `
+        <div class="card">
+          <label class="h3" for="odo">${t().odometer}</label>
+          <input class="input mono" id="odo" type="number" inputmode="numeric" value="${x.km}" data-input="km">
+          ${isReturn ? `<div class="kv"><dt>${t().drivenKm}</dt><dd>${fmt(driven)}</dd><dt>${t().included}</dt><dd>${fmt(incl)}</dd>${driven > incl ? `<dt>${t().extraKm}</dt><dd style="color:var(--picon)">${fmt(driven - incl)}</dd>` : ''}</div>` : ''}
+        </div>
+        <div class="card">
+          <div class="between"><label class="h3" for="fuel">${t().fuel}</label><span class="mono">${x.fuel}%</span></div>
+          <input class="range" id="fuel" type="range" min="0" max="100" step="5" value="${x.fuel}" data-input="fuel">
+          ${isReturn ? `<div class="faint">${t().fuelOut}: 90%</div>` : ''}
+        </div>`;
+    } else if (x.step === 2) {
+      const z = (id, attrs, label, lx, ly) => {
+        const st = x.damage[id];
+        return `<g><rect class="zone ${st || ''}" ${attrs} rx="6" data-action="zone" data-v="${id}"/>${label ? `<text class="zone-label" x="${lx}" y="${ly}" text-anchor="middle">${t().zones[id]}</text>` : ''}</g>`;
+      };
+      const ai = isReturn && x.ai === null ? `
+        <div class="ai-card">
+          <div class="row" style="color:var(--picon);font-weight:700">${I.spark}<span>${t().aiTitle}</span></div>
+          <div>${t().aiText} <span class="faint">78% ${t().confidence}</span></div>
+          <div class="btn-row"><button class="btn small" data-action="ai" data-v="confirm">${t().confirmDmg}</button><button class="btn small secondary" data-action="ai" data-v="dismiss">${t().dismiss}</button></div>
+        </div>` : '';
+      body = `<div class="faint">${t().damagesHint}</div>
+        ${ai}
+        <div class="card topview">
+          <svg viewBox="0 0 200 330" role="img" aria-label="car">
+            ${z('front', 'x="45" y="8" width="110" height="26"', 1, 100, 25)}
+            ${z('hood', 'x="45" y="38" width="110" height="70"', 1, 100, 77)}
+            ${z('roof', 'x="52" y="112" width="96" height="104"', 1, 100, 168)}
+            ${z('trunk', 'x="45" y="220" width="110" height="68"', 1, 100, 258)}
+            ${z('rear', 'x="45" y="292" width="110" height="28"', 1, 100, 310)}
+            ${z('left', 'x="22" y="96" width="20" height="132"', 0)}
+            ${z('right', 'x="158" y="96" width="20" height="132"', 0)}
+            ${z('wfl', 'x="14" y="44" width="26" height="46"', 0)}
+            ${z('wfr', 'x="160" y="44" width="26" height="46"', 0)}
+            ${z('wrl', 'x="14" y="234" width="26" height="46"', 0)}
+            ${z('wrr', 'x="160" y="234" width="26" height="46"', 0)}
+          </svg>
+        </div>
+        <div class="list">${Object.entries(x.damage).map(([k, v]) => `<div class="li"><span class="grow">${t().zones[k]}</span><span class="pill ${v === 'pre' ? 'warn' : 'picon'}">${v === 'pre' ? t().preexisting : t().newDamage}</span></div>`).join('')}</div>`;
+    } else {
+      const who = s.model === 'peer'
+        ? [MEMBERS[c.owner].name, 'Carlos M.']
+        : [s.model === 'garage' ? (S.lang === 'es' ? 'Técnico · Taller asociado' : 'Technician · Partner garage') : (S.lang === 'es' ? 'Equipo del club' : 'Club team'), 'Carlos M.'];
+      canNext = x.signed.a && x.signed.b;
+      body = `<div class="faint">${t().signHint}</div>
+        <div class="card tight"><dl class="kv">
+          <dt>${t().steps[0]}</dt><dd>8/8</dd>
+          <dt>${t().odometer}</dt><dd class="mono">${fmt(x.km)} km</dd>
+          <dt>${t().fuel}</dt><dd>${x.fuel}%</dd>
+          <dt>${t().steps[2]}</dt><dd>${Object.keys(x.damage).length}</dd>
+        </dl></div>
+        <button class="sign" aria-pressed="${x.signed.a}" data-action="sign" data-v="a"><span class="box">${I.check}</span><span class="grow"><b>${who[0]}</b><br><span class="faint">${t().iConfirm}</span></span></button>
+        <button class="sign" aria-pressed="${x.signed.b}" data-action="sign" data-v="b"><span class="box">${I.check}</span><span class="grow"><b>${who[1]}</b><br><span class="faint">${t().iConfirm}</span></span></button>`;
+    }
+    const nav = `<div class="btn-row">${x.step > 0 ? `<button class="btn secondary" data-action="inspPrev">${t().prev}</button>` : ''}
+      <button class="btn" ${canNext ? '' : 'disabled'} data-action="${x.step === 3 ? 'inspFinish' : 'inspNext'}">${x.step === 3 ? t().finish : t().next}</button></div>`;
+    return { title: isReturn ? t().checkin : t().checkout, back: true, body: stepsBar + body + nav };
+  };
+
+  screens.events = () => ({
+    title: t().eventsTitle,
+    body: EVENTS().map((e) => `
+      <div class="card">
+        <div class="event">
+          <div class="datebox"><b>${e.date.getDate()}</b><span>${dMon(e.date)}</span></div>
+          <div style="display:grid;gap:5px;min-width:0">
+            <span class="h3">${e.name}</span>
+            <div class="route-line">${e.route.map((r, i) => (i ? '<i></i>' : '') + r).join('')}</div>
+            <span class="faint">${t().meeting}: ${e.meet} · ${e.km} ${t().routeKm}</span>
+            <span class="faint">${e.going} ${t().attendees}</span>
+          </div>
+        </div>
+        <button class="btn ${S.rsvp[e.id] ? 'secondary' : ''}" data-action="rsvp" data-v="${e.id}">${S.rsvp[e.id] ? '✓ ' + t().going : t().join}</button>
+        ${S.rsvp[e.id] ? `<button class="sign" aria-pressed="${!!S.borrow[e.id]}" data-action="borrow" data-v="${e.id}"><span class="box">${I.check}</span><span class="grow faint">${t().borrowForRoute}</span></button>` : ''}
+      </div>`).join(''),
+  });
+
+  screens.garage = () => {
+    const mine = CARS.filter((c) => c.mine);
+    return {
+      title: t().garageTitle,
+      body: `
+      <span class="eyebrow">${t().myCars}</span>
+      ${mine.map((c) => `
+      <div class="card">
+        ${art(c)}
+        <div class="between"><div class="car-name">${c.name}</div><div class="ptsday num">${c.pts}<small> ${t().pts}${t().perDay}</small></div></div>
+        <div class="between"><span class="${S.listed[c.id] ? '' : 'muted'}">${S.listed[c.id] ? t().listed : t().notListed}</span><button class="switch" aria-label="${t().listed}" aria-pressed="${!!S.listed[c.id]}" data-action="list" data-v="${c.id}"></button></div>
+        ${S.listed[c.id] ? `<button class="btn secondary small" style="width:100%" data-action="toast" data-v="blockDates">${t().blockDates}</button>` : ''}
+      </div>`).join('')}
+      <button class="btn secondary" data-action="go" data-v="addCar">+ ${t().addCar}</button>
+      <button class="card" style="text-align:left" data-action="go" data-v="ledger">
+        <div class="between"><div><span class="eyebrow">${t().earnings}</span><div class="ptsday num" style="font-size:24px">+${fmt(1085)} <small>${t().pts}</small></div></div>${I.chev}</div>
+        <span class="faint">${t().ledger}</span>
+      </button>
+      <div class="card tight">
+        <span class="h3">${t().verification}</span>
+        <div class="list">
+          ${[t().idDoc, t().licence, t().insurance].map((d) => `<div class="li"><span class="grow">${d}</span><span class="pill good">${t().verified}</span></div>`).join('')}
+        </div>
+      </div>`,
+    };
+  };
+
+  screens.ledger = () => {
+    const rows = S.lang === 'es'
+      ? [['BMW M4 prestado a Laura S.', '+200'], ['Porsche 911 · Javier R.', '-330'], ['Ruta de las Cumbres: GT-R de Laura S.', '-100'], ['Toyota GR Supra prestado a Dani V.', '+147'], ['Puntos anuales · Socio Plus', '+1.200'], ['Puntos caducados', '-45']]
+      : [['BMW M4 lent to Laura S.', '+200'], ['Porsche 911 · Javier R.', '-330'], ['Summit Drive: Laura S.’s GT-R', '-100'], ['Toyota GR Supra lent to Dani V.', '+147'], ['Yearly points · Plus member', '+1,200'], ['Expired points', '-45']];
+    return {
+      title: t().ledgerTitle, back: true,
+      body: `<div class="card"><div class="list">${rows.map(([l, a], i) => `<div class="li"><div class="grow"><div>${l}</div><div class="faint">${dLong(addDays(today, -(i * 9 + 2)))}</div></div><span class="amt ${a.startsWith('+') ? 'plus' : 'minus'}">${a}</span></div>`).join('')}</div></div>`,
+    };
+  };
+
+  screens.addCar = () => ({
+    title: t().addCarTitle, back: true,
+    body: `
+      <div class="faint">${t().addCarHint}</div>
+      <div class="card">
+        <label class="h3" for="mk">${t().make}</label><input class="input" id="mk" value="Porsche 718 Spyder">
+        <label class="h3" for="pl">${t().plate}</label><input class="input mono" id="pl" value="1234 MXX">
+        <label class="h3" for="yr">${t().year}</label><input class="input mono" id="yr" type="number" value="2021">
+        <label class="h3" for="kd">${t().kmIncluded}</label><input class="input mono" id="kd" type="number" value="200">
+      </div>
+      <button class="btn" data-action="submitCar">${t().submitCar}</button>`,
+  });
+
+  // ---------------------------------------------------------------- screens (club)
+  const INSP_TODAY = () => [
+    { time: '10:00', car: 'gtr', phase: 'checkout', model: 'peer', who: 'Laura S. → Carlos M.' },
+    { time: '12:30', car: 'amg', phase: 'checkout', model: 'club', who: 'Dani V. → Nuria T.' },
+    { time: '17:00', car: 'p911', phase: 'checkin', model: 'garage', who: 'Carlos M. → Javier R.' },
+  ];
+
+  screens.panel = () => ({
+    title: t().panelTitle,
+    body: `
+      <div class="stat-row">
+        <div class="stat"><b>42</b><span>${t().membersStat}</span></div>
+        <div class="stat"><b>27</b><span>${t().carsStat}</span></div>
+        <div class="stat"><b>18</b><span>${t().swapsStat}</span></div>
+      </div>
+      <div class="card">
+        <div class="between"><span class="h3">${t().todayQueue}</span><button class="btn ghost small" data-action="tab" data-v="inspections">${t().seeAll}</button></div>
+        <div class="list">${INSP_TODAY().map((r) => inspRow(r)).join('')}</div>
+      </div>
+      <div class="card">
+        <div class="between"><span class="h3">${t().openCases}</span><span class="pill picon">1</span></div>
+        <div class="li" style="border:0;padding:0"><div class="grow"><div><b>Porsche 911 Carrera S</b> · ${t().zones.wrr}</div><div class="faint">${S.lang === 'es' ? 'Rozadura · estimación 180 € · sugerencia automática confirmada' : 'Scuff · estimate €180 · automatic suggestion confirmed'}</div></div></div>
+      </div>
+      <div class="card">
+        <div class="between"><span class="h3">${t().reqTitle2}</span><span class="pill warn">${S.clubReqs.filter((r) => !r.state).length}</span></div>
+        <button class="btn secondary" data-action="tab" data-v="requests">${t().reqTitle2}</button>
+      </div>`,
+  });
+
+  const inspRow = (r) => {
+    const c = car(r.car); const needsStaff = r.model !== 'peer';
+    return `<div class="li"><span class="mono" style="width:44px">${r.time}</span><div class="grow"><div><b>${c.name}</b></div><div class="faint">${r.phase === 'checkin' ? t().checkin : t().checkout} · ${r.who}</div></div><span class="pill ${needsStaff ? 'accent' : ''}">${t().models[r.model]}</span></div>`;
+  };
+
+  screens.requests = () => ({
+    title: t().reqTitle2,
+    body: S.clubReqs.map((r) => {
+      const head = r.kind === 'member'
+        ? `<div class="owner">${avatar(r.who)}<div class="grow"><div class="h3">${MEMBERS[r.who].name}</div><div class="faint">${t().newMember} · ${t().ownsCar} ${r.car}</div></div><span class="pill warn">${t().newMember}</span></div>
+           <div class="list">${[t().idDoc, t().licence, t().insurance].map((d, i) => `<div class="li"><span class="grow">${d}</span><span class="pill ${i < 2 ? 'good' : 'warn'}">${i < 2 ? t().verified : (S.lang === 'es' ? 'Pendiente' : 'Pending')}</span></div>`).join('')}</div>`
+        : `<div class="owner">${avatar(r.who)}<div class="grow"><div class="h3">${MEMBERS[r.who].name} → ${car(r.car).name}</div><div class="faint">${dLong(r.from)} · ${r.days} ${t().day} · ${MEMBERS[car(r.car).owner].name}</div></div></div>
+           <span class="pill picon">${t().firstSwap}</span>`;
+      const actions = r.state
+        ? `<span class="pill ${r.state === 'approved' ? 'good' : ''}">${r.state === 'approved' ? t().approved : t().declined}</span>`
+        : `<div class="btn-row"><button class="btn small" data-action="clubReq" data-id="${r.id}" data-v="approved">${t().approve}</button><button class="btn small secondary" data-action="clubReq" data-id="${r.id}" data-v="declined">${t().decline}</button></div>`;
+      return `<div class="card">${head}${actions}</div>`;
+    }).join(''),
+  });
+
+  screens.inspections = () => ({
+    title: t().inspQueue,
+    body: `<span class="eyebrow">${t().todayQueue}</span>
+      <div class="card"><div class="list">${INSP_TODAY().map((r) => inspRow(r)).join('')}</div></div>
+      <div class="card tight">${['garage', 'club', 'peer'].map((m) => `<div class="between"><span class="row" style="gap:8px"><span class="ico" style="width:22px;height:22px;color:var(--accent)">${modelIcon(m)}</span>${t().models[m]}</span><span class="pill ${m === 'peer' ? '' : 'accent'}">${m === 'peer' ? t().noStaff : t().staffNeeded}</span></div>`).join('')}</div>`,
+  });
+
+  screens.settings = () => {
+    const scores = { garage: { cost: 1, trust: 5, effort: 2, speed: 2 }, club: { cost: 3, trust: 4, effort: 5, speed: 3 }, peer: { cost: 5, trust: 3, effort: 1, speed: 5 } };
+    const dots = (n) => `<span class="dots">${[1, 2, 3, 4, 5].map((i) => `<i class="${i <= n ? 'on' : ''}"></i>`).join('')}</span>`;
+    return {
+      title: t().settingsTitle,
+      body: `
+      <div class="faint">${t().chooseModels}</div>
+      <div class="compare">${['garage', 'club', 'peer'].map((m) => `
+        <div class="model-card ${S.models[m] ? 'on' : ''}">
+          <div class="between"><span class="row" style="gap:10px"><span class="ico" style="width:22px;height:22px;color:var(--accent)">${modelIcon(m)}</span><span class="h3">${t().models[m]}</span></span><button class="switch" aria-label="${t().enabled}" aria-pressed="${S.models[m]}" data-action="model" data-v="${m}"></button></div>
+          <div class="faint">${t().modelDesc[m]}</div>
+          <div class="meter">
+            <span>${S.lang === 'es' ? 'Ahorro' : 'Low cost'}</span>${dots(scores[m].cost)}
+            <span>${t().trust}</span>${dots(scores[m].trust)}
+            <span>${t().speed}</span>${dots(scores[m].speed)}
+            <span>${t().effort}</span>${dots(scores[m].effort)}
+          </div>
+          <div class="proscons"><div><b style="color:var(--good)">${t().pros}</b><ul>${t().pc[m][0].map((p) => `<li>${p}</li>`).join('')}</ul></div><div><b style="color:var(--picon)">${t().cons}</b><ul>${t().pc[m][1].map((p) => `<li>${p}</li>`).join('')}</ul></div></div>
+        </div>`).join('')}
+      </div>
+      <div class="card">
+        <div class="between"><span>${t().catRule}</span><button class="switch" aria-label="${t().catRule}" aria-pressed="${S.catRule}" data-action="catRule"></button></div>
+      </div>
+      <div class="card tight">
+        <span class="eyebrow">${t().recommend}</span>
+        <span>${t().recommendText}</span>
+      </div>`,
+    };
+  };
+
+  // ---------------------------------------------------------------- render
+  const MEMBER_TABS = [['home', I.home], ['explore', I.car], ['swaps', I.swap], ['events', I.flag], ['garage', I.garage]];
+  const CLUB_TABS = [['panel', I.gauge], ['requests', I.inbox], ['inspections', I.clip], ['settings', I.cog]];
+  const TAB_OF = { car: 'explore', request: 'explore', swap: 'swaps', inspection: 'swaps', ledger: 'garage', addCar: 'garage' };
+
+  const renderNotes = () => {
+    const [h, p, list] = NOTES[S.lang][S.route.name] || NOTES[S.lang].home;
+    const seg = (action, v, label, on) => `<button data-action="${action}" data-v="${v}" aria-pressed="${on}">${label}</button>`;
+    document.getElementById('notes').innerHTML = `
+      <div class="brand"><span class="brand-mark">Alisio<i>.</i></span></div>
+      <span class="brand-sub">${t().brandSub}</span>
+      <div class="concept-tag">${t().concept}</div>
+      <div class="ctrl"><span class="ctrl-label">${t().language}</span><div class="seg">${seg('lang', 'es', 'Español', S.lang === 'es')}${seg('lang', 'en', 'English', S.lang === 'en')}</div></div>
+      <div class="ctrl"><span class="ctrl-label">${t().view}</span><div class="seg">${seg('mode', 'member', t().member, S.mode === 'member')}${seg('mode', 'club', t().club, S.mode === 'club')}</div></div>
+      <div class="ctrl"><span class="ctrl-label">${t().modelsLabel}</span><div class="model-toggles">${['garage', 'club', 'peer'].map((m) => `<button class="mtoggle" aria-pressed="${S.models[m]}" data-action="model" data-v="${m}"><span class="box">${I.check}</span><b>${t().models[m]}</b></button>`).join('')}</div></div>
+      <div class="note-card"><h3>${h}</h3><p>${p}</p>${list.length ? `<ul>${list.map((x) => `<li>${x}</li>`).join('')}</ul>` : ''}</div>
+      <button class="btn ghost small" data-action="reset">${t().demoReset}</button>`;
+    ['es', 'en'].forEach((l) => { document.getElementById('m-lang-' + l).setAttribute('aria-pressed', S.lang === l); });
+    ['member', 'club'].forEach((m) => { const b = document.getElementById('m-mode-' + m); b.textContent = t()[m]; b.setAttribute('aria-pressed', S.mode === m); });
+  };
+
+  const render = (scrollTop) => {
+    document.documentElement.lang = S.lang;
+    const scr = (screens[S.route.name] || screens.home)();
+    document.getElementById('appbar').innerHTML = `${scr.back ? `<button class="iconbtn" aria-label="Back" data-action="back">${I.back}</button>` : ''}<h1>${scr.title}</h1>`;
+    const main = document.getElementById('main');
+    main.innerHTML = scr.body;
+    if (scrollTop) { main.scrollTop = 0; try { window.scrollTo(0, 0); } catch (e) { /* ignore */ } }
+    const tabs = S.mode === 'club' ? CLUB_TABS : MEMBER_TABS;
+    const current = TAB_OF[S.route.name] || S.route.name;
+    const bar = document.getElementById('tabbar');
+    bar.className = 'tabbar' + (tabs.length === 4 ? ' four' : '');
+    bar.innerHTML = tabs.map(([id, icon]) => `<button class="tab" data-action="tab" data-v="${id}" ${current === id ? 'aria-current="page"' : ''}>${icon}<span>${t().tabs[id]}</span></button>`).join('');
+    renderNotes();
+  };
+
+  // ---------------------------------------------------------------- actions
+  const actions = {
+    go: (el) => go(el.dataset.v, { id: el.dataset.id }),
+    back: () => back(),
+    tab: (el) => tab(el.dataset.v),
+    lang: (el) => { S.lang = el.dataset.v; try { localStorage.setItem('alisio-lang', S.lang); } catch (e) { /* ignore */ } render(); },
+    mode: (el) => { S.mode = el.dataset.v; S.history = []; S.route = { name: S.mode === 'club' ? 'panel' : 'home' }; render(true); },
+    model: (el) => { const m = el.dataset.v; S.models[m] = !S.models[m]; if (!enabledModels().length) S.models[m] = true; render(); },
+    catRule: () => { S.catRule = !S.catRule; render(); },
+    hideHow: () => { S.showHow = false; render(); },
+    filter: (el) => { S.filter = el.dataset.v; render(); },
+    startReq: (el) => { S.req = { car: el.dataset.id, start: null, days: 2, model: null }; go('request'); },
+    pickDay: (el) => { S.req.start = new Date(Number(el.dataset.v)); render(); },
+    pickDur: (el) => { S.req.days = Number(el.dataset.v); render(); },
+    pickModel: (el) => { S.req.model = el.dataset.v; render(); },
+    sendReq: () => {
+      const c = car(S.req.car); const q = quote(c, S.req.start, S.req.days);
+      S.swaps.unshift({ id: 's' + Date.now(), car: c.id, from: S.req.start, days: S.req.days, model: S.req.model, status: 'pending', cost: q.total });
+      S.req = null; S.history = []; S.route = { name: 'swaps' }; render(true); toast(t().sent);
+    },
+    startInsp: (el) => {
+      const s = S.swaps.find((x) => x.id === el.dataset.id);
+      S.insp = { swap: s.id, phase: s.phase, step: 0, photos: new Set(), km: s.phase === 'checkin' ? 18812 : 18240, fuel: s.phase === 'checkin' ? 65 : 90, damage: { hood: 'pre' }, ai: s.phase === 'checkin' ? null : 'n/a', signed: { a: false, b: false } };
+      go('inspection');
+    },
+    shot: (el) => { const i = Number(el.dataset.v); if (S.insp.photos.has(i)) S.insp.photos.delete(i); else S.insp.photos.add(i); render(); },
+    allShots: () => { for (let i = 0; i < 8; i += 1) S.insp.photos.add(i); render(); },
+    inspNext: () => { S.insp.step = Math.min(3, S.insp.step + 1); render(true); },
+    inspPrev: () => { S.insp.step = Math.max(0, S.insp.step - 1); render(true); },
+    zone: (el) => { const z = el.dataset.v; const d = S.insp.damage; if (d[z] === 'pre') return; if (d[z]) delete d[z]; else d[z] = 'new'; render(); },
+    ai: (el) => { if (el.dataset.v === 'confirm') { S.insp.damage.wrr = 'new'; S.insp.ai = 'confirmed'; toast(t().aiConfirmed); } else { S.insp.ai = 'dismissed'; toast(t().aiDismissed); } render(); },
+    sign: (el) => { S.insp.signed[el.dataset.v] = !S.insp.signed[el.dataset.v]; render(); },
+    inspFinish: () => {
+      const s = S.swaps.find((x) => x.id === S.insp.swap);
+      if (s.phase === 'checkin') { s.status = 'done'; s.phase = null; } else { s.status = 'active'; s.phase = 'checkin'; }
+      S.insp = null; S.history = []; S.route = { name: 'swaps' }; render(true); toast(t().inspDone);
+    },
+    rsvp: (el) => { S.rsvp[el.dataset.v] = !S.rsvp[el.dataset.v]; render(); },
+    borrow: (el) => { S.borrow[el.dataset.v] = !S.borrow[el.dataset.v]; render(); },
+    list: (el) => { S.listed[el.dataset.v] = !S.listed[el.dataset.v]; render(); },
+    toast: (el) => toast(el.dataset.v === 'blockDates' ? (S.lang === 'es' ? 'Calendario de bloqueos (próximamente en la demo)' : 'Blocking calendar (coming to the demo)') : ''),
+    submitCar: () => { S.history = []; S.route = { name: 'garage' }; render(true); toast(t().carSent); },
+    clubReq: (el) => { const r = S.clubReqs.find((x) => x.id === el.dataset.id); r.state = el.dataset.v; render(); },
+    reset: () => { const l = S.lang; S = fresh(); S.lang = l; render(true); },
+  };
+
+  document.addEventListener('click', (e) => {
+    const el = e.target.closest('[data-action]');
+    if (!el || el.disabled) return;
+    const fn = actions[el.dataset.action];
+    if (fn) { e.preventDefault(); fn(el); }
+  });
+  document.addEventListener('input', (e) => {
+    const k = e.target.dataset && e.target.dataset.input;
+    if (!k || !S.insp) return;
+    S.insp[k] = Number(e.target.value) || 0;
+    if (k === 'fuel') { const lab = e.target.closest('.card').querySelector('.mono'); if (lab) lab.textContent = S.insp.fuel + '%'; }
+  });
+  document.addEventListener('change', (e) => { if (e.target.dataset && e.target.dataset.input === 'km') render(); });
+
+  render(true);
+})();
+</script>
+</body>
+</html>
