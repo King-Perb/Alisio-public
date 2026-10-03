@@ -307,7 +307,8 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .slider-hint { font-size: 11.5px; color: var(--ink-3); }
 .split { display: flex; height: 26px; border-radius: 8px; overflow: hidden; font-size: 11.5px; font-weight: 700; color: #fff; }
 .split span { display: grid; place-items: center; white-space: nowrap; padding: 0 6px; }
-.tier-table { display: grid; grid-template-columns: 1fr auto auto auto; gap: 6px 12px; font-size: 13px; font-variant-numeric: tabular-nums; }
+.tier-table > * { min-width: 0; overflow-wrap: break-word; hyphens: auto; }
+.tier-table { display: grid; grid-template-columns: minmax(0, 1fr) auto auto auto; gap: 6px 12px; font-size: 13px; font-variant-numeric: tabular-nums; }
 .tier-table .hd { font-size: 11px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .08em; }
 .tier-table .r { text-align: right; }
 .assume { font-size: 11.5px; color: var(--ink-3); }
@@ -444,10 +445,10 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
         src: { fees: 'Cuotas de socio', points: 'Venta de puntos', garage: 'Margen en inspecciones de taller', events: 'Rutas y eventos de pago', sponsors: 'Patrocinadores y colaboradores', damage: 'Gestión de partes de daños' },
         subs: { fees: '{n} socios · cuotas por nivel · −{d} € de descuento por coches aportados', points: '{p} pts comprados/mes a {e} €/pt', garage: '{h} entregas/mes en taller × {m} € de margen', events: '{n} eventos × {a} socios × {f} €', sponsors: '{n} colaboradores × {f} €/mes', damage: '{n} partes/mes × {f} €' },
         oneSwap: 'Un intercambio, paso a paso', swapEx: 'Porsche 911 · 2 días de fin de semana', driverPays: 'El socio paga', ownerGets: 'Propietario (70%)', clubKeeps: 'Club (30%)', clubKeepsNote: 'Los puntos que retiene el club salen de circulación: los socios que conducen más de lo que prestan compran puntos, y eso es dinero real para el club.', garageLine: 'Entrega + devolución en taller', garageSplit: 'taller {g} € · club {c} €',
-        tiers: 'Niveles de socio', tier: 'Nivel', fee: 'Cuota/año', pts: 'Puntos/año', mix: 'Socios',
-        tierCats: ['Deportivo y GT', 'Deportivo, GT y Superdeportivo', 'Todas las categorías'], discTitle: 'Descuento por aportar coche', discCat: 'Categoría del coche', discPct: 'Descuento en la cuota', discMix: 'Coches del club', discNote: 'Se aplica a quien tiene su coche disponible al menos 8 días al mes. Cuenta el coche de mayor categoría.', listing: 'Socios con coche disponible', tierCatsNote: 'Cada nivel da acceso a unas categorías de coche. Además, cada propietario puede exigir un nivel mínimo para su coche.',
+        tiers: 'Niveles de socio', tier: 'Nivel', fee: 'Cuota', pts: 'Pts/año', ptBuy: '€/pt',  mix: 'Socios',
+        tierCats: ['Deportivo y GT', '+ Superdeportivo', 'Todas'], discTitle: 'Descuento por aportar coche', discCat: 'Categoría', discPct: 'Descuento', discMix: 'Coches', discNote: 'Se aplica a quien tiene su coche disponible al menos 8 días al mes. Cuenta el coche de mayor categoría.', listing: 'Socios con coche disponible', tierCatsNote: 'Cada nivel da acceso a unas categorías de coche. Superdeportivos y exóticos solo para socios que aportan coche. Además, cada propietario puede exigir un nivel mínimo para su coche.',
         costs: 'Costes', insurance: 'Seguro por socio al año', insuranceLine: 'Seguro', insSub: '{n} socios × {f} €/año', afterIns: 'Resultado tras seguro', insNote: 'Cifra provisional: depende del presupuesto de una aseguradora para los intercambios entre socios.', afterInsShort: 'Tras seguro',
-        assumptions: 'Supuestos', members: 'Socios en el piloto', plusShare: 'Socios Plus', eliteShare: 'Socios Élite', swaps: 'Intercambios por socio al mes', ptsSwap: 'Puntos medios por intercambio', bought: 'Puntos pagados con compra', ptPrice: 'Precio del punto extra', garageShare: 'Intercambios con entrega en taller', margin: 'Margen del club por entrega en taller', events: 'Eventos de pago al mes', eventPeople: 'Asistentes por evento', eventFee: 'Precio por asistente', sponsors: 'Colaboradores (seguros, detailing, talleres…)', sponsorFee: 'Aportación por colaborador', dmgRate: 'Intercambios con parte de daños', dmgFee: 'Tasa de gestión por parte',
+        assumptions: 'Supuestos', members: 'Socios en el piloto', plusShare: 'Socios Plus', eliteShare: 'Socios Élite', swaps: 'Intercambios por socio al mes', ptsSwap: 'Puntos medios por intercambio', bought: 'Puntos pagados con compra', ptPrice: 'Precio base del punto extra', garageShare: 'Intercambios con entrega en taller', margin: 'Margen del club por entrega en taller', events: 'Eventos de pago al mes', eventPeople: 'Asistentes por evento', eventFee: 'Precio por asistente', sponsors: 'Colaboradores (seguros, detailing, talleres…)', sponsorFee: 'Aportación por colaborador', dmgRate: 'Intercambios con parte de daños', dmgFee: 'Tasa de gestión por parte',
         platformToggle: 'Mostrar reparto con la plataforma', platform: 'Cuota de la plataforma (software)', clubNet: 'Neto para el club', platformLine: 'Plataforma',
         existingFee: '¿El club ya cobra una cuota? Los niveles pueden sumarse a la cuota actual en lugar de sustituirla.',
       },
@@ -513,10 +514,10 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
         src: { fees: 'Membership fees', points: 'Point sales', garage: 'Margin on garage inspections', events: 'Paid drives & events', sponsors: 'Sponsors & partners', damage: 'Damage report handling' },
         subs: { fees: '{n} members · fees by tier · −€{d} car-contribution discount', points: '{p} pts bought/month at €{e}/pt', garage: '{h} garage handovers/month × €{m} margin', events: '{n} events × {a} members × €{f}', sponsors: '{n} partners × €{f}/month', damage: '{n} reports/month × €{f}' },
         oneSwap: 'One swap, step by step', swapEx: 'Porsche 911 · 2 weekend days', driverPays: 'Member pays', ownerGets: 'Owner (70%)', clubKeeps: 'Club (30%)', clubKeepsNote: 'Points the club keeps leave circulation: members who drive more than they lend buy points, and that is real money for the club.', garageLine: 'Garage pick-up + return', garageSplit: 'garage €{g} · club €{c}',
-        tiers: 'Membership tiers', tier: 'Tier', fee: 'Fee/year', pts: 'Points/year', mix: 'Members',
-        tierCats: ['Sports and GT', 'Sports, GT and Supercar', 'All categories'], discTitle: 'Car contribution discount', discCat: 'Car category', discPct: 'Fee discount', discMix: 'Club cars', discNote: 'Applies to members whose car is available at least 8 days a month. The highest-category car counts.', listing: 'Members with a car available', tierCatsNote: 'Each tier gives access to certain car categories. Owners can also require a minimum tier for their car.',
+        tiers: 'Membership tiers', tier: 'Tier', fee: 'Fee', pts: 'Pts/yr', ptBuy: '€/pt',  mix: 'Members',
+        tierCats: ['Sports and GT', '+ Supercar', 'All'], discTitle: 'Car contribution discount', discCat: 'Category', discPct: 'Discount', discMix: 'Cars', discNote: 'Applies to members whose car is available at least 8 days a month. The highest-category car counts.', listing: 'Members with a car available', tierCatsNote: 'Each tier gives access to certain car categories. Supercars and exotics only for members who contribute a car. Owners can also require a minimum tier for their car.',
         costs: 'Costs', insurance: 'Insurance per member per year', insuranceLine: 'Insurance', insSub: '{n} members × €{f}/year', afterIns: 'Result after insurance', insNote: 'Provisional figure: depends on an insurer\u2019s quote for swaps between members.', afterInsShort: 'After insurance',
-        assumptions: 'Assumptions', members: 'Members in the pilot', plusShare: 'Plus members', eliteShare: 'Élite members', swaps: 'Swaps per member per month', ptsSwap: 'Average points per swap', bought: 'Points paid by purchase', ptPrice: 'Price of an extra point', garageShare: 'Swaps with garage handover', margin: 'Club margin per garage handover', events: 'Paid events per month', eventPeople: 'Attendees per event', eventFee: 'Price per attendee', sponsors: 'Partners (insurance, detailing, garages…)', sponsorFee: 'Contribution per partner', dmgRate: 'Swaps with a damage report', dmgFee: 'Handling fee per report',
+        assumptions: 'Assumptions', members: 'Members in the pilot', plusShare: 'Plus members', eliteShare: 'Élite members', swaps: 'Swaps per member per month', ptsSwap: 'Average points per swap', bought: 'Points paid by purchase', ptPrice: 'Base price of an extra point', garageShare: 'Swaps with garage handover', margin: 'Club margin per garage handover', events: 'Paid events per month', eventPeople: 'Attendees per event', eventFee: 'Price per attendee', sponsors: 'Partners (insurance, detailing, garages…)', sponsorFee: 'Contribution per partner', dmgRate: 'Swaps with a damage report', dmgFee: 'Handling fee per report',
         platformToggle: 'Show split with the platform', platform: 'Platform fee (software)', clubNet: 'Net for the club', platformLine: 'Platform',
         existingFee: 'Does the club already charge a fee? Tiers can top up the current fee instead of replacing it.',
       },
@@ -606,7 +607,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
     filter: 'all',
     balance: 1240,
     rsvp: { e1: true },
-    rev: { members: 40, plus: 35, elite: 15, listing: 60, swaps: 0.6, ptsSwap: 240, bought: 25, ptPrice: 1, garageShare: 40, margin: 10, events: 1, eventPeople: 15, eventFee: 25, sponsors: 2, sponsorFee: 150, dmgRate: 3, dmgFee: 50, insurance: 500, showPlatform: false, platform: 10 },
+    rev: { members: 40, plus: 35, elite: 15, listing: 60, swaps: 0.6, ptsSwap: 240, bought: 20, ptPrice: 3, garageShare: 40, margin: 10, events: 1, eventPeople: 15, eventFee: 25, sponsors: 2, sponsorFee: 150, dmgRate: 3, dmgFee: 50, insurance: 500, showPlatform: false, platform: 10 },
     borrow: {},
     listed: { m4: true, supra: false },
     req: null,
@@ -832,6 +833,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
           <dt>${t().kmIncluded}</dt><dd>${c.kmDay}</dd>
           <dt>${t().minTier}</dt><dd>${c.minTier}</dd>
           ${c.garageOnly ? `<dt>${t().garageOnly}</dt><dd>✓</dd>` : ''}
+          ${c.cat === 'C' || c.cat === 'D' ? `<dt>${S.lang === 'es' ? 'Solo socios que aportan coche' : 'Members who contribute a car only'}</dt><dd>✓</dd>` : ''}
         </dl>
       </div>
       <button class="btn" data-action="startReq" data-id="${c.id}">${t().requestSwap}</button>`,
@@ -1078,8 +1080,8 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 
   screens.ledger = () => {
     const rows = S.lang === 'es'
-      ? [['BMW M4 prestado a Laura S.', '+200'], ['Porsche 911 · Javier R.', '-330'], ['Ruta de las Cumbres: GT-R de Laura S.', '-100'], ['Toyota GR Supra prestado a Dani V.', '+147'], ['Puntos anuales · Socio Plus', '+1.200'], ['Puntos caducados', '-45']]
-      : [['BMW M4 lent to Laura S.', '+200'], ['Porsche 911 · Javier R.', '-330'], ['Summit Drive: Laura S.’s GT-R', '-100'], ['Toyota GR Supra lent to Dani V.', '+147'], ['Yearly points · Plus member', '+1,200'], ['Expired points', '-45']];
+      ? [['BMW M4 prestado a Laura S.', '+200'], ['Porsche 911 · Javier R.', '-330'], ['Ruta de las Cumbres: GT-R de Laura S.', '-100'], ['Toyota GR Supra prestado a Dani V.', '+147'], ['Puntos anuales · Socio Plus', '+400'], ['Puntos caducados', '-45']]
+      : [['BMW M4 lent to Laura S.', '+200'], ['Porsche 911 · Javier R.', '-330'], ['Summit Drive: Laura S.’s GT-R', '-100'], ['Toyota GR Supra lent to Dani V.', '+147'], ['Yearly points · Plus member', '+400'], ['Expired points', '-45']];
     return {
       title: t().ledgerTitle, back: true,
       body: `<div class="card"><div class="list">${rows.map(([l, a], i) => `<div class="li"><div class="grow"><div>${l}</div><div class="faint">${dLong(addDays(today, -(i * 9 + 2)))}</div></div><span class="amt ${a.startsWith('+') ? 'plus' : 'minus'}">${a}</span></div>`).join('')}</div></div>`,
@@ -1155,7 +1157,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
       <div class="card tight">${['garage', 'club', 'peer'].map((m) => `<div class="between"><span class="row" style="gap:8px"><span class="ico" style="width:22px;height:22px;color:var(--accent)">${modelIcon(m)}</span>${t().models[m]}</span><span class="pill ${m === 'peer' ? '' : 'accent'}">${m === 'peer' ? t().noStaff : t().staffNeeded}</span></div>`).join('')}</div>`,
   });
 
-  const TIERS = [['Socio', 300, 600], ['Plus', 900, 1200], ['Élite', 2000, 2500]];
+  const TIERS = [['Socio', 600, 150, 1], ['Plus', 1500, 400, 0.9167], ['Élite', 3500, 1000, 0.8333]];
   // fee discount for members who make a car available, by the car's category; share of club cars per category
   const CAT_DISC = { A: 10, B: 20, C: 35, D: 50 };
   const CAT_MIX = { A: 25, B: 45, C: 20, D: 10 };
@@ -1173,18 +1175,19 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
     const boughtPts = ptsM * r.bought / 100;
     const handovers = swapsM * r.garageShare / 100 * 2;
     const reports = swapsM * r.dmgRate / 100;
+    const avgPtPrice = r.members ? r.ptPrice * (nS * TIERS[0][3] + nP * TIERS[1][3] + nE * TIERS[2][3]) / r.members : r.ptPrice;
     const grossFees = nS * TIERS[0][1] + nP * TIERS[1][1] + nE * TIERS[2][1];
     const discount = grossFees * r.listing / 100 * avgDisc() / 100;
     const v = {
       fees: grossFees / 12 - discount / 12,
-      points: boughtPts * r.ptPrice,
+      points: boughtPts * avgPtPrice,
       garage: handovers * r.margin,
       events: r.events * r.eventPeople * r.eventFee,
       sponsors: r.sponsors * r.sponsorFee,
       damage: reports * r.dmgFee,
     };
     const total = REV_KEYS.reduce((a, k) => a + v[k], 0);
-    return { v, total, discount, nS, nP, nE, swapsM, ptsM, boughtPts, handovers, reports };
+    return { v, total, discount, avgPtPrice, nS, nP, nE, swapsM, ptsM, boughtPts, handovers, reports };
   };
   const SLIDERS = [
     ['members', 10, 150, 5, (x) => fmt(x)],
@@ -1194,7 +1197,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
     ['swaps', 0, 3, 0.1, (x) => x.toFixed(1)],
     ['ptsSwap', 60, 600, 20, (x) => `${fmt(x)} pts`],
     ['bought', 0, 80, 5, (x) => `${x}%`],
-    ['ptPrice', 0.5, 2, 0.05, (x) => `${x.toFixed(2).replace('.', S.lang === 'es' ? ',' : '.')} €`],
+    ['ptPrice', 0.5, 5, 0.25, (x) => `${x.toFixed(2).replace('.', S.lang === 'es' ? ',' : '.')} €`],
     ['garageShare', 0, 100, 5, (x) => `${x}%`],
     ['margin', 0, 30, 1, (x) => `${x} €`],
     ['events', 0, 4, 1, (x) => `${x}`],
@@ -1233,11 +1236,13 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
       const bar = root.querySelector(`[data-bar="${k}"]`); if (bar) bar.style.width = c.total ? `${c.v[k] / c.total * 100}%` : '0';
     });
     set('sub-fees', fill(R.subs.fees, { n: r.members, d: fmt(Math.round(c.discount / 12)) }));
-    set('sub-points', fill(R.subs.points, { p: fmt(Math.round(c.boughtPts)), e: r.ptPrice.toFixed(2).replace('.', S.lang === 'es' ? ',' : '.') }));
+    set('sub-points', fill(R.subs.points, { p: fmt(Math.round(c.boughtPts)), e: c.avgPtPrice.toFixed(2).replace('.', S.lang === 'es' ? ',' : '.') }));
     set('sub-garage', fill(R.subs.garage, { h: fmt(Math.round(c.handovers)), m: r.margin }));
     set('sub-events', fill(R.subs.events, { n: r.events, a: r.eventPeople, f: r.eventFee }));
     set('sub-sponsors', fill(R.subs.sponsors, { n: r.sponsors, f: fmt(r.sponsorFee) }));
     set('sub-damage', fill(R.subs.damage, { n: c.reports.toFixed(1).replace('.', S.lang === 'es' ? ',' : '.'), f: r.dmgFee }));
+    TIERS.forEach((tr, i) => set(`pp-${i}`, (r.ptPrice * tr[3]).toFixed(2).replace('.', S.lang === 'es' ? ',' : '.')));
+    set('swap-cash', euro(330 * r.ptPrice));
     set('mix-0', fmt(c.nS)); set('mix-1', fmt(c.nP)); set('mix-2', fmt(c.nE));
     SLIDERS.forEach((sl) => set(`s-${sl[0]}`, sl[4](r[sliderKey(sl)])));
     root.querySelectorAll('input[type=range][data-rev]').forEach((el) => {
@@ -1279,6 +1284,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
         <div class="between"><span>${R.driverPays}</span><b class="num">${fmt(swapPts)} pts</b></div>
         <div class="split"><span style="flex:${owner};background:var(--c3)">${R.ownerGets} · ${owner}</span><span style="flex:${club};background:var(--c1)">${R.clubKeeps} · ${club}</span></div>
         <span class="assume">${R.clubKeepsNote}</span>
+        <div class="between"><span class="muted">${S.lang === 'es' ? 'Si se pagara con puntos comprados' : 'If paid with bought points'}</span><b class="num" data-out="swap-cash"></b></div>
         <div class="divider"></div>
         <div class="between"><span>${R.garageLine}</span><b class="num">${garageFee * 2} €</b></div>
         <span class="faint">${fill(R.garageSplit, { g: garagePart * 2, c: clubPart * 2 })}</span>
@@ -1286,14 +1292,14 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 
       <div class="card">
         <span class="h3">${R.tiers}</span>
-        <div class="tier-table">
-          <span class="hd">${R.tier}</span><span class="hd r">${R.fee}</span><span class="hd r">${R.pts}</span><span class="hd r">${R.mix}</span>
-          ${TIERS.map(([n, f, p], i) => `<span>${n}<br><span class="assume">${R.tierCats[i]}</span></span><span class="r">${fmt(f)} €</span><span class="r">${fmt(p)}</span><span class="r" data-out="mix-${i}"></span>`).join('')}
+        <div class="tier-table" style="grid-template-columns: minmax(0, 1fr) auto auto auto auto; gap: 6px 10px">
+          <span class="hd">${R.tier}</span><span class="hd r">${R.fee}</span><span class="hd r">${R.pts}</span><span class="hd r">${R.ptBuy}</span><span class="hd r">${R.mix}</span>
+          ${TIERS.map(([n, f, p, k], i) => `<span>${n}<br><span class="assume">${R.tierCats[i]}</span></span><span class="r">${fmt(f)} €</span><span class="r">${fmt(p)}</span><span class="r" data-out="pp-${i}"></span><span class="r" data-out="mix-${i}"></span>`).join('')}
         </div>
         <span class="assume">${R.tierCatsNote}</span>
         <div class="divider"></div>
         <span class="h3">${R.discTitle}</span>
-        <div class="tier-table" style="grid-template-columns: 1fr auto auto">
+        <div class="tier-table" style="grid-template-columns: minmax(0, 1fr) auto auto">
           <span class="hd">${R.discCat}</span><span class="hd r">${R.discPct}</span><span class="hd r">${R.discMix}</span>
           ${['A', 'B', 'C', 'D'].map((k) => `<span>${t().cat[k]}</span><span class="r">−${CAT_DISC[k]}%</span><span class="r">${CAT_MIX[k]}%</span>`).join('')}
         </div>
