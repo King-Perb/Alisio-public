@@ -29,7 +29,7 @@
   --picon: #b4472c;
   --picon-soft: #f6e3dc;
   --hero: #15191c; --hero-ink: #eef0ee;
-  --c1: #0e5d78; --c2: #b4472c; --c3: #2f7a4b; --c4: #b07d12; --c5: #6a4f9a; --c6: #7c868b;
+  --c1: #0e5d78; --c2: #b4472c; --c3: #2f7a4b; --c4: #b07d12; --c5: #6a4f9a; --c6: #7c868b; --c7: #2a7f8f;
   --good: #2f7a4b;
   --good-soft: #dff0e4;
   --warn: #9a6a12;
@@ -48,9 +48,9 @@
     --picon: #e2795c; --picon-soft: #3a2119; --good: #6cc48f; --good-soft: #17301f;
     --warn: #e0b45a; --warn-soft: #33290f; --device: #050607;
   --hero: #12394a; --hero-ink: #eaf2f4;
-  --c1: #5fb0cc; --c2: #e2795c; --c3: #6cc48f; --c4: #e0b45a; --c5: #a78bdb; --c6: #93a0a5;
+  --c1: #5fb0cc; --c2: #e2795c; --c3: #6cc48f; --c4: #e0b45a; --c5: #a78bdb; --c6: #93a0a5; --c7: #57c2cf;
     --hero: #12394a; --hero-ink: #eaf2f4;
-    --c1: #5fb0cc; --c2: #e2795c; --c3: #6cc48f; --c4: #e0b45a; --c5: #a78bdb; --c6: #93a0a5;
+    --c1: #5fb0cc; --c2: #e2795c; --c3: #6cc48f; --c4: #e0b45a; --c5: #a78bdb; --c6: #93a0a5; --c7: #57c2cf;
     --shadow: 0 30px 60px -30px rgba(0, 0, 0, .8);
     color-scheme: dark;
   }
@@ -424,7 +424,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
       performedBy: 'Realiza la inspección',
       eventsTitle: 'Rutas y eventos', going: 'Voy', join: 'Apuntarme', attendees: 'socios apuntados', meeting: 'Salida', borrowForRoute: 'Quiero conducir el coche de otro socio en esta ruta', routeKm: 'km de ruta',
       garageTitle: 'Mi garaje', myCars: 'Mis coches', listed: 'Disponible para intercambio', notListed: 'Solo para mí', addCar: 'Añadir un coche', ledger: 'Historial de puntos', verification: 'Verificación', verified: 'Verificado',
-      idDoc: 'DNI', licence: 'Carné de conducir', insurance: 'Seguro del coche', feeDisc: 'Tu {car} ({cat}) te da un {p}% de descuento en la cuota anual', feeDiscOff: 'Activa un coche para tener descuento en la cuota', earnings: 'Puntos ganados prestando', blockDates: 'Bloquear fechas para uso propio',
+      idDoc: 'DNI', licence: 'Carné de conducir', insurance: 'Seguro del coche', feeDisc: 'Tu {car} ({cat}) te da un {p}% de descuento en la cuota anual', storeToggle: 'Guardar en el garaje del club', storeSub: '{f} €/mes · seguro, cubierto, batería cuidada y siempre listo para intercambios', storedBadge: 'En el garaje del club · entrega inmediata', storeOn: 'Tu coche se guardará en el garaje del club. Las entregas se harán allí con inspección profesional.', feeDiscOff: 'Activa un coche para tener descuento en la cuota', earnings: 'Puntos ganados prestando', blockDates: 'Bloquear fechas para uso propio',
       ledgerTitle: 'Historial de puntos', addCarTitle: 'Añadir un coche', addCarHint: 'El club revisa el coche y lo activa tras la primera inspección.', make: 'Marca y modelo', plate: 'Matrícula', submitCar: 'Enviar al club', carSent: 'Coche enviado. El club te contactará para la inspección inicial.',
       panelTitle: 'Panel del club', membersStat: 'socios', carsStat: 'coches activos', swapsStat: 'intercambios este mes',
       todayQueue: 'Hoy', openCases: 'Partes abiertos', reqTitle2: 'Solicitudes', newMember: 'Nuevo socio', swapRequest: 'Intercambio', approve: 'Aprobar', decline: 'Rechazar', approved: 'Aprobado', declined: 'Rechazado',
@@ -442,13 +442,13 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
       demoReset: 'Reiniciar demo', disabledModel: 'Desactivado por el club',
       rev: {
         title: 'Ingresos del club', perMonth: '/mes', perYear: 'al año', estYear: 'Estimación anual', estNote: 'Piloto con supuestos de ejemplo. Mueve los controles para ajustarlos.',
-        src: { fees: 'Cuotas de socio', points: 'Venta de puntos', garage: 'Margen en inspecciones de taller', events: 'Rutas y eventos de pago', sponsors: 'Patrocinadores y colaboradores', damage: 'Gestión de partes de daños' },
-        subs: { fees: '{n} socios · cuotas por nivel · −{d} € de descuento por coches aportados', points: '{p} pts comprados/mes a {e} €/pt', garage: '{h} entregas/mes en taller × {m} € de margen', events: '{n} eventos × {a} socios × {f} €', sponsors: '{n} colaboradores × {f} €/mes', damage: '{n} partes/mes × {f} €' },
+        src: { fees: 'Cuotas de socio', points: 'Venta de puntos', garage: 'Margen en inspecciones de taller', events: 'Rutas y eventos de pago', sponsors: 'Patrocinadores y colaboradores', damage: 'Gestión de partes de daños', storage: 'Garaje del club (almacenamiento)' },
+        subs: { fees: '{n} socios · cuotas por nivel · −{d} € de descuento por coches aportados', points: '{p} pts comprados/mes a {e} €/pt', garage: '{h} entregas/mes en taller × {m} € de margen', events: '{n} eventos × {a} socios × {f} €', sponsors: '{n} colaboradores × {f} €/mes', damage: '{n} partes/mes × {f} €', storage: '{n} coches × {f} €/mes × {m}% para el club' },
         oneSwap: 'Un intercambio, paso a paso', swapEx: 'Porsche 911 · 2 días de fin de semana', driverPays: 'El socio paga', ownerGets: 'Propietario (70%)', clubKeeps: 'Club (30%)', clubKeepsNote: 'Los puntos que retiene el club salen de circulación: los socios que conducen más de lo que prestan compran puntos, y eso es dinero real para el club.', garageLine: 'Entrega + devolución en taller', garageSplit: 'taller {g} € · club {c} €',
         tiers: 'Niveles de socio', tier: 'Nivel', fee: 'Cuota', pts: 'Pts/año', ptBuy: '€/pt',  mix: 'Socios',
         tierCats: ['Deportivo y GT', '+ Superdeportivo', 'Todas'], discTitle: 'Descuento por aportar coche', discCat: 'Categoría', discPct: 'Descuento', discMix: 'Coches', discNote: 'Se aplica a quien tiene su coche disponible al menos 8 días al mes. Cuenta el coche de mayor categoría.', listing: 'Socios con coche disponible', tierCatsNote: 'Cada nivel da acceso a unas categorías de coche. Superdeportivos y exóticos solo para socios que aportan coche. Además, cada propietario puede exigir un nivel mínimo para su coche.',
         costs: 'Costes', insurance: 'Seguro por socio al año', insuranceLine: 'Seguro', insSub: '{n} socios × {f} €/año', afterIns: 'Resultado tras seguro', insNote: 'Cifra provisional: depende del presupuesto de una aseguradora para los intercambios entre socios.', afterInsShort: 'Tras seguro',
-        assumptions: 'Supuestos', members: 'Socios en el piloto', plusShare: 'Socios Plus', eliteShare: 'Socios Élite', swaps: 'Intercambios por socio al mes', ptsSwap: 'Puntos medios por intercambio', bought: 'Puntos pagados con compra', ptPrice: 'Precio base del punto extra', garageShare: 'Intercambios con entrega en taller', margin: 'Margen del club por entrega en taller', events: 'Eventos de pago al mes', eventPeople: 'Asistentes por evento', eventFee: 'Precio por asistente', sponsors: 'Colaboradores (seguros, detailing, talleres…)', sponsorFee: 'Aportación por colaborador', dmgRate: 'Intercambios con parte de daños', dmgFee: 'Tasa de gestión por parte',
+        assumptions: 'Supuestos', members: 'Socios en el piloto', plusShare: 'Socios Plus', eliteShare: 'Socios Élite', swaps: 'Intercambios por socio al mes', ptsSwap: 'Puntos medios por intercambio', bought: 'Puntos pagados con compra', ptPrice: 'Precio base del punto extra', garageShare: 'Intercambios con entrega en taller', margin: 'Margen del club por entrega en taller', events: 'Eventos de pago al mes', eventPeople: 'Asistentes por evento', eventFee: 'Precio por asistente', sponsors: 'Colaboradores (seguros, detailing, talleres…)', sponsorFee: 'Aportación por colaborador', dmgRate: 'Intercambios con parte de daños', dmgFee: 'Tasa de gestión por parte', storedCars: 'Coches guardados en el garaje', storageFee: 'Precio del garaje por coche al mes', storageMargin: 'Parte del club en el garaje',
         platformToggle: 'Mostrar reparto con la plataforma', platform: 'Cuota de la plataforma (software)', clubNet: 'Neto para el club', platformLine: 'Plataforma',
         existingFee: '¿El club ya cobra una cuota? Los niveles pueden sumarse a la cuota actual en lugar de sustituirla.',
       },
@@ -493,7 +493,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
       performedBy: 'Inspection done by',
       eventsTitle: 'Drives & events', going: 'Going', join: 'Join', attendees: 'members going', meeting: 'Start', borrowForRoute: 'I’d like to drive another member’s car on this drive', routeKm: 'km route',
       garageTitle: 'My garage', myCars: 'My cars', listed: 'Available for swaps', notListed: 'Just for me', addCar: 'Add a car', ledger: 'Points history', verification: 'Verification', verified: 'Verified',
-      idDoc: 'ID card', licence: 'Driving licence', insurance: 'Car insurance', feeDisc: 'Your {car} ({cat}) gives you {p}% off the yearly fee', feeDiscOff: 'Make a car available to get a fee discount', earnings: 'Points earned lending', blockDates: 'Block dates for my own use',
+      idDoc: 'ID card', licence: 'Driving licence', insurance: 'Car insurance', feeDisc: 'Your {car} ({cat}) gives you {p}% off the yearly fee', storeToggle: 'Keep it in the club garage', storeSub: '€{f}/month · secure, indoors, battery cared for and always ready for swaps', storedBadge: 'In the club garage · instant handover', storeOn: 'Your car will be kept in the club garage. Handovers happen there with a professional inspection.', feeDiscOff: 'Make a car available to get a fee discount', earnings: 'Points earned lending', blockDates: 'Block dates for my own use',
       ledgerTitle: 'Points history', addCarTitle: 'Add a car', addCarHint: 'The club reviews the car and activates it after the first inspection.', make: 'Make and model', plate: 'Plate', submitCar: 'Send to club', carSent: 'Car sent. The club will contact you for the first inspection.',
       panelTitle: 'Club dashboard', membersStat: 'members', carsStat: 'active cars', swapsStat: 'swaps this month',
       todayQueue: 'Today', openCases: 'Open damage reports', reqTitle2: 'Requests', newMember: 'New member', swapRequest: 'Swap', approve: 'Approve', decline: 'Decline', approved: 'Approved', declined: 'Declined',
@@ -511,13 +511,13 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
       demoReset: 'Reset demo', disabledModel: 'Turned off by the club',
       rev: {
         title: 'Club revenue', perMonth: '/month', perYear: 'per year', estYear: 'Yearly estimate', estNote: 'Pilot with example assumptions. Move the controls to adjust them.',
-        src: { fees: 'Membership fees', points: 'Point sales', garage: 'Margin on garage inspections', events: 'Paid drives & events', sponsors: 'Sponsors & partners', damage: 'Damage report handling' },
-        subs: { fees: '{n} members · fees by tier · −€{d} car-contribution discount', points: '{p} pts bought/month at €{e}/pt', garage: '{h} garage handovers/month × €{m} margin', events: '{n} events × {a} members × €{f}', sponsors: '{n} partners × €{f}/month', damage: '{n} reports/month × €{f}' },
+        src: { fees: 'Membership fees', points: 'Point sales', garage: 'Margin on garage inspections', events: 'Paid drives & events', sponsors: 'Sponsors & partners', damage: 'Damage report handling', storage: 'Club garage (storage)' },
+        subs: { fees: '{n} members · fees by tier · −€{d} car-contribution discount', points: '{p} pts bought/month at €{e}/pt', garage: '{h} garage handovers/month × €{m} margin', events: '{n} events × {a} members × €{f}', sponsors: '{n} partners × €{f}/month', damage: '{n} reports/month × €{f}', storage: '{n} cars × €{f}/month × {m}% to the club' },
         oneSwap: 'One swap, step by step', swapEx: 'Porsche 911 · 2 weekend days', driverPays: 'Member pays', ownerGets: 'Owner (70%)', clubKeeps: 'Club (30%)', clubKeepsNote: 'Points the club keeps leave circulation: members who drive more than they lend buy points, and that is real money for the club.', garageLine: 'Garage pick-up + return', garageSplit: 'garage €{g} · club €{c}',
         tiers: 'Membership tiers', tier: 'Tier', fee: 'Fee', pts: 'Pts/yr', ptBuy: '€/pt',  mix: 'Members',
         tierCats: ['Sports and GT', '+ Supercar', 'All'], discTitle: 'Car contribution discount', discCat: 'Category', discPct: 'Discount', discMix: 'Cars', discNote: 'Applies to members whose car is available at least 8 days a month. The highest-category car counts.', listing: 'Members with a car available', tierCatsNote: 'Each tier gives access to certain car categories. Supercars and exotics only for members who contribute a car. Owners can also require a minimum tier for their car.',
         costs: 'Costs', insurance: 'Insurance per member per year', insuranceLine: 'Insurance', insSub: '{n} members × €{f}/year', afterIns: 'Result after insurance', insNote: 'Provisional figure: depends on an insurer\u2019s quote for swaps between members.', afterInsShort: 'After insurance',
-        assumptions: 'Assumptions', members: 'Members in the pilot', plusShare: 'Plus members', eliteShare: 'Élite members', swaps: 'Swaps per member per month', ptsSwap: 'Average points per swap', bought: 'Points paid by purchase', ptPrice: 'Base price of an extra point', garageShare: 'Swaps with garage handover', margin: 'Club margin per garage handover', events: 'Paid events per month', eventPeople: 'Attendees per event', eventFee: 'Price per attendee', sponsors: 'Partners (insurance, detailing, garages…)', sponsorFee: 'Contribution per partner', dmgRate: 'Swaps with a damage report', dmgFee: 'Handling fee per report',
+        assumptions: 'Assumptions', members: 'Members in the pilot', plusShare: 'Plus members', eliteShare: 'Élite members', swaps: 'Swaps per member per month', ptsSwap: 'Average points per swap', bought: 'Points paid by purchase', ptPrice: 'Base price of an extra point', garageShare: 'Swaps with garage handover', margin: 'Club margin per garage handover', events: 'Paid events per month', eventPeople: 'Attendees per event', eventFee: 'Price per attendee', sponsors: 'Partners (insurance, detailing, garages…)', sponsorFee: 'Contribution per partner', dmgRate: 'Swaps with a damage report', dmgFee: 'Handling fee per report', storedCars: 'Cars stored in the garage', storageFee: 'Garage price per car per month', storageMargin: 'Club share of the garage fee',
         platformToggle: 'Show split with the platform', platform: 'Platform fee (software)', clubNet: 'Net for the club', platformLine: 'Platform',
         existingFee: 'Does the club already charge a fee? Tiers can top up the current fee instead of replacing it.',
       },
@@ -579,12 +579,12 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
   const CARS = [
     { id: 'p911', name: 'Porsche 911 Carrera S', gen: '992', owner: 'javier', cat: 'B', pts: 110, hp: 450, acc: '3,5 s', box: 'auto', seats: 4, year: 2021, town: 'Santa Brígida', color: '#c9ccc9', plate: '4821 LKP', kmDay: 200, minTier: 'Plus', garageOnly: false },
     { id: 'gtr', name: 'Nissan GT-R', gen: 'R35', owner: 'laura', cat: 'B', pts: 100, hp: 570, acc: '2,8 s', box: 'auto', seats: 4, year: 2018, town: 'Telde', color: '#2b2f33', plate: '7710 KHT', kmDay: 200, minTier: 'Socio', garageOnly: false },
-    { id: 'r8', name: 'Audi R8 V10', gen: 'performance', owner: 'dani', cat: 'C', pts: 170, hp: 620, acc: '3,1 s', box: 'auto', seats: 2, year: 2020, town: 'Maspalomas', color: '#b8322a', plate: '1102 LBC', kmDay: 150, minTier: 'Plus', garageOnly: true },
-    { id: 'f488', name: 'Ferrari 488 GTB', gen: '', owner: 'andres', cat: 'D', pts: 260, hp: 670, acc: '3,0 s', box: 'auto', seats: 2, year: 2017, town: 'Las Palmas', color: '#d12a20', plate: '0488 JZF', kmDay: 120, minTier: 'Élite', garageOnly: true },
+    { stored: true, id: 'r8', name: 'Audi R8 V10', gen: 'performance', owner: 'dani', cat: 'C', pts: 170, hp: 620, acc: '3,1 s', box: 'auto', seats: 2, year: 2020, town: 'Maspalomas', color: '#b8322a', plate: '1102 LBC', kmDay: 150, minTier: 'Plus', garageOnly: true },
+    { stored: true, id: 'f488', name: 'Ferrari 488 GTB', gen: '', owner: 'andres', cat: 'D', pts: 260, hp: 670, acc: '3,0 s', box: 'auto', seats: 2, year: 2017, town: 'Las Palmas', color: '#d12a20', plate: '0488 JZF', kmDay: 120, minTier: 'Élite', garageOnly: true },
     { id: 'gt4', name: 'Porsche 718 Cayman GT4', gen: '', owner: 'marta', cat: 'B', pts: 95, hp: 420, acc: '4,4 s', box: 'manual', seats: 2, year: 2022, town: 'Arucas', color: '#e9b824', plate: '3307 MCD', kmDay: 200, minTier: 'Socio', garageOnly: false },
     { id: 'a110', name: 'Alpine A110 S', gen: '', owner: 'nuria', cat: 'A', pts: 65, hp: 300, acc: '4,2 s', box: 'auto', seats: 2, year: 2022, town: 'Agüimes', color: '#2a5fa8', plate: '5519 MFG', kmDay: 250, minTier: 'Socio', garageOnly: false },
     { id: 'amg', name: 'Mercedes-AMG GT', gen: 'C190', owner: 'dani', cat: 'B', pts: 105, hp: 476, acc: '3,9 s', box: 'auto', seats: 2, year: 2019, town: 'Maspalomas', color: '#5d6b4a', plate: '8826 KZS', kmDay: 200, minTier: 'Plus', garageOnly: false },
-    { id: 'sl', name: 'Mercedes 280 SL Pagoda', gen: 'W113', owner: 'andres', cat: 'C', pts: 140, hp: 170, acc: '9,0 s', box: 'manual', seats: 2, year: 1969, town: 'Las Palmas', color: '#9fc3c9', plate: 'GC-1969', kmDay: 100, minTier: 'Plus', garageOnly: true, classic: true },
+    { stored: true, id: 'sl', name: 'Mercedes 280 SL Pagoda', gen: 'W113', owner: 'andres', cat: 'C', pts: 140, hp: 170, acc: '9,0 s', box: 'manual', seats: 2, year: 1969, town: 'Las Palmas', color: '#9fc3c9', plate: 'GC-1969', kmDay: 100, minTier: 'Plus', garageOnly: true, classic: true },
     { id: 'm4', name: 'BMW M4 Competition', gen: 'G82', owner: 'carlos', cat: 'B', pts: 95, hp: 510, acc: '3,9 s', box: 'auto', seats: 4, year: 2022, town: 'Las Palmas', color: '#2f7a6a', plate: '6634 MBR', kmDay: 200, minTier: 'Socio', garageOnly: false, mine: true },
     { id: 'supra', name: 'Toyota GR Supra', gen: 'A90', owner: 'carlos', cat: 'A', pts: 70, hp: 340, acc: '4,3 s', box: 'manual', seats: 2, year: 2023, town: 'Las Palmas', color: '#c8551f', plate: '2290 MNS', kmDay: 200, minTier: 'Socio', garageOnly: false, mine: true },
   ];
@@ -607,9 +607,10 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
     filter: 'all',
     balance: 1240,
     rsvp: { e1: true },
-    rev: { members: 40, plus: 35, elite: 15, listing: 60, swaps: 0.6, ptsSwap: 240, bought: 20, ptPrice: 3, garageShare: 40, margin: 10, events: 1, eventPeople: 15, eventFee: 25, sponsors: 2, sponsorFee: 150, dmgRate: 3, dmgFee: 50, insurance: 500, showPlatform: false, platform: 10 },
+    rev: { members: 40, plus: 35, elite: 15, listing: 60, swaps: 0.6, ptsSwap: 240, bought: 20, ptPrice: 3, garageShare: 40, margin: 10, events: 1, eventPeople: 15, eventFee: 25, sponsors: 2, sponsorFee: 150, dmgRate: 3, dmgFee: 50, insurance: 500, storedCars: 6, storageFee: 200, storageMargin: 20, showPlatform: false, platform: 10 },
     borrow: {},
     listed: { m4: true, supra: false },
+    stored: { m4: false, supra: false },
     req: null,
     insp: null,
     swaps: [
@@ -799,7 +800,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
         ${list.map((c) => `
         <button class="car-tile" data-action="go" data-v="car" data-id="${c.id}">
           ${art(c)}
-          <div class="between"><div style="min-width:0"><div class="car-name">${c.name}</div><div class="route-line">${I.pin}${c.town}</div></div><div class="ptsday num">${c.pts}<small> ${t().pts}${t().perDay}</small></div></div>
+          <div class="between"><div style="min-width:0"><div class="car-name">${c.name}</div><div class="route-line">${I.pin}${c.town}</div>${c.stored ? `<span class="pill accent" style="margin-top:4px">${t().storedBadge}</span>` : ''}</div><div class="ptsday num">${c.pts}<small> ${t().pts}${t().perDay}</small></div></div>
           <div class="owner">${avatar(c.owner)}<span class="faint">${MEMBERS[c.owner].name} · ★ ${MEMBERS[c.owner].rating.toFixed(1)}</span></div>
         </button>`).join('')}
       </div>`,
@@ -822,6 +823,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
       <div class="card tight">
         <div class="owner">${avatar(c.owner)}<div class="grow"><div class="h3">${m.name}</div><div class="faint">${t().ownerSince} ${m.since} · ${m.swaps} ${t().swapsDone} · ★ ${m.rating.toFixed(1)}</div></div></div>
         <div class="route-line">${I.pin}${c.town}</div>
+        ${c.stored ? `<span class="pill accent">${t().storedBadge}</span>` : ''}
       </div>
       <div class="card">
         <span class="h3">${t().availability}</span>
@@ -1055,7 +1057,11 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
         ${art(c)}
         <div class="between"><div class="car-name">${c.name}</div><div class="ptsday num">${c.pts}<small> ${t().pts}${t().perDay}</small></div></div>
         <div class="between"><span class="${S.listed[c.id] ? '' : 'muted'}">${S.listed[c.id] ? t().listed : t().notListed}</span><button class="switch" aria-label="${t().listed}" aria-pressed="${!!S.listed[c.id]}" data-action="list" data-v="${c.id}"></button></div>
-        ${S.listed[c.id] ? `<button class="btn secondary small" style="width:100%" data-action="toast" data-v="blockDates">${t().blockDates}</button>` : ''}
+        ${S.listed[c.id] ? `
+        <div class="divider"></div>
+        <div class="between"><div style="min-width:0"><div>${t().storeToggle}</div><div class="faint">${fill(t().storeSub, { f: 200 })}</div></div><button class="switch" aria-label="${t().storeToggle}" aria-pressed="${!!S.stored[c.id]}" data-action="store" data-v="${c.id}"></button></div>
+        ${S.stored[c.id] ? `<span class="pill accent" style="white-space:normal">${t().storedBadge}</span>` : ''}
+        <button class="btn secondary small" style="width:100%" data-action="toast" data-v="blockDates">${t().blockDates}</button>` : ''}
       </div>`).join('')}
       ${(() => {
         const listed = mine.filter((c) => S.listed[c.id]).sort((a, b) => CAT_DISC[b.cat] - CAT_DISC[a.cat]);
@@ -1162,7 +1168,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
   const CAT_DISC = { A: 10, B: 20, C: 35, D: 50 };
   const CAT_MIX = { A: 25, B: 45, C: 20, D: 10 };
   const avgDisc = () => Object.keys(CAT_DISC).reduce((a, k) => a + CAT_DISC[k] * CAT_MIX[k] / 100, 0);
-  const REV_KEYS = ['fees', 'points', 'garage', 'events', 'sponsors', 'damage'];
+  const REV_KEYS = ['fees', 'points', 'garage', 'storage', 'events', 'sponsors', 'damage'];
   const euro = (n) => `${fmt(Math.round(n))} €`;
   const fill = (str, o) => str.replace(/\{(\w+)\}/g, (_, k) => o[k]);
   const computeRev = () => {
@@ -1185,6 +1191,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
       events: r.events * r.eventPeople * r.eventFee,
       sponsors: r.sponsors * r.sponsorFee,
       damage: reports * r.dmgFee,
+      storage: r.storedCars * r.storageFee * r.storageMargin / 100,
     };
     const total = REV_KEYS.reduce((a, k) => a + v[k], 0);
     return { v, total, discount, avgPtPrice, nS, nP, nE, swapsM, ptsM, boughtPts, handovers, reports };
@@ -1207,6 +1214,9 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
     ['sponsorFee', 0, 1000, 50, (x) => `${fmt(x)} €`],
     ['dmgRate', 0, 15, 1, (x) => `${x}%`],
     ['dmgFee', 0, 150, 10, (x) => `${x} €`],
+    ['storedCars', 0, 40, 1, (x) => `${x}`],
+    ['storageFee', 100, 400, 10, (x) => `${x} €`],
+    ['storageMargin', 0, 50, 5, (x) => `${x}%`],
   ];
   const sliderKey = (sl) => sl[5] || sl[0];
 
@@ -1240,6 +1250,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
     set('sub-garage', fill(R.subs.garage, { h: fmt(Math.round(c.handovers)), m: r.margin }));
     set('sub-events', fill(R.subs.events, { n: r.events, a: r.eventPeople, f: r.eventFee }));
     set('sub-sponsors', fill(R.subs.sponsors, { n: r.sponsors, f: fmt(r.sponsorFee) }));
+    set('sub-storage', fill(R.subs.storage, { n: r.storedCars, f: r.storageFee, m: r.storageMargin }));
     set('sub-damage', fill(R.subs.damage, { n: c.reports.toFixed(1).replace('.', S.lang === 'es' ? ',' : '.'), f: r.dmgFee }));
     TIERS.forEach((tr, i) => set(`pp-${i}`, (r.ptPrice * tr[3]).toFixed(2).replace('.', S.lang === 'es' ? ',' : '.')));
     set('swap-cash', euro(330 * r.ptPrice));
@@ -1480,6 +1491,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
     rsvp: (el) => { S.rsvp[el.dataset.v] = !S.rsvp[el.dataset.v]; render(); },
     borrow: (el) => { S.borrow[el.dataset.v] = !S.borrow[el.dataset.v]; render(); },
     list: (el) => { S.listed[el.dataset.v] = !S.listed[el.dataset.v]; render(); },
+    store: (el) => { const k = el.dataset.v; S.stored[k] = !S.stored[k]; render(); if (S.stored[k]) toast(t().storeOn); },
     toast: (el) => toast(el.dataset.v === 'blockDates' ? (S.lang === 'es' ? 'Calendario de bloqueos (próximamente en la demo)' : 'Blocking calendar (coming to the demo)') : ''),
     submitCar: () => { S.history = []; S.route = { name: 'garage' }; render(true); toast(t().carSent); },
     clubReq: (el) => { const r = S.clubReqs.find((x) => x.id === el.dataset.id); r.state = el.dataset.v; render(); },
