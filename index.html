@@ -280,7 +280,18 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .lg .sub { grid-column: 2 / -1; font-size: 11.5px; color: var(--ink-3); margin-top: -5px; }
 .slider { display: grid; gap: 4px; }
 .slider .between span:last-child { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.slider input { width: 100%; accent-color: var(--accent); }
+.srow { display: grid; grid-template-columns: 32px 1fr 32px; gap: 8px; align-items: center; }
+.step { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface-2); font-size: 18px; font-weight: 700; line-height: 1; display: grid; place-items: center; color: var(--ink); padding: 0; }
+.step:active { background: var(--accent-soft); }
+/* Only the handle reacts to touch: the track ignores it, so a vertical swipe over a slider scrolls the page. */
+.slider input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 30px; margin: 0; background: transparent; pointer-events: none; touch-action: pan-y; --p: 50%; }
+.slider input[type=range]::-webkit-slider-runnable-track { height: 6px; border-radius: 3px; background: linear-gradient(to right, var(--accent) var(--p), var(--line) var(--p)); }
+.slider input[type=range]::-moz-range-track { height: 6px; border-radius: 3px; background: linear-gradient(to right, var(--accent) var(--p), var(--line) var(--p)); }
+.slider input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; pointer-events: auto; width: 28px; height: 28px; margin-top: -11px; border-radius: 50%; background: var(--accent); border: 3px solid var(--surface); box-shadow: 0 1px 4px rgba(0, 0, 0, .35); cursor: grab; touch-action: none; }
+.slider input[type=range]::-moz-range-thumb { pointer-events: auto; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); border: 3px solid var(--surface); box-shadow: 0 1px 4px rgba(0, 0, 0, .35); cursor: grab; }
+.slider input[type=range]:focus-visible { outline: none; }
+.slider input[type=range]:focus-visible::-webkit-slider-thumb { outline: 2px solid var(--accent); outline-offset: 2px; }
+.slider-hint { font-size: 11.5px; color: var(--ink-3); }
 .split { display: flex; height: 26px; border-radius: 8px; overflow: hidden; font-size: 11.5px; font-weight: 700; color: #fff; }
 .split span { display: grid; place-items: center; white-space: nowrap; padding: 0 6px; }
 .tier-table { display: grid; grid-template-columns: 1fr auto auto auto; gap: 6px 12px; font-size: 13px; font-variant-numeric: tabular-nums; }
@@ -1187,6 +1198,10 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
     set('sub-damage', fill(R.subs.damage, { n: c.reports.toFixed(1).replace('.', S.lang === 'es' ? ',' : '.'), f: r.dmgFee }));
     set('mix-0', fmt(c.nS)); set('mix-1', fmt(c.nP)); set('mix-2', fmt(c.nE));
     SLIDERS.forEach((sl) => set(`s-${sl[0]}`, sl[4](r[sliderKey(sl)])));
+    root.querySelectorAll('input[type=range][data-rev]').forEach((el) => {
+      const min = Number(el.min); const max = Number(el.max);
+      el.style.setProperty('--p', `${((Number(el.value) - min) / (max - min)) * 100}%`);
+    });
     set('platform-v', `${r.platform}%`);
     set('platform-amt', `−${euro(fee * 12)} ${R.perYear}`);
     set('net', `${euro((c.total - fee) * 12)} ${R.perYear}`);
@@ -1231,10 +1246,15 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 
       <div class="card">
         <span class="h3">${R.assumptions}</span>
+        <span class="slider-hint">${S.lang === 'es' ? 'Arrastra el círculo o usa − / +.' : 'Drag the circle or use − / +.'}</span>
         ${SLIDERS.map((sl) => `
         <div class="slider">
           <div class="between"><label for="rv-${sl[0]}">${R[sl[0]]}</label><span data-out="s-${sl[0]}"></span></div>
-          <input id="rv-${sl[0]}" type="range" min="${sl[1]}" max="${sl[2]}" step="${sl[3]}" value="${r[sliderKey(sl)]}" data-rev="${sliderKey(sl)}">
+          <div class="srow">
+            <button class="step" aria-label="−" data-action="revStep" data-k="${sliderKey(sl)}" data-d="-1">−</button>
+            <input id="rv-${sl[0]}" type="range" min="${sl[1]}" max="${sl[2]}" step="${sl[3]}" value="${r[sliderKey(sl)]}" data-rev="${sliderKey(sl)}">
+            <button class="step" aria-label="+" data-action="revStep" data-k="${sliderKey(sl)}" data-d="1">+</button>
+          </div>
         </div>`).join('')}
       </div>
 
@@ -1243,7 +1263,11 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
         ${r.showPlatform ? `
         <div class="slider">
           <div class="between"><label for="rv-platform">${R.platform}</label><span data-out="platform-v"></span></div>
-          <input id="rv-platform" type="range" min="0" max="30" step="1" value="${r.platform}" data-rev="platform">
+          <div class="srow">
+            <button class="step" aria-label="−" data-action="revStep" data-k="platform" data-d="-1">−</button>
+            <input id="rv-platform" type="range" min="0" max="30" step="1" value="${r.platform}" data-rev="platform">
+            <button class="step" aria-label="+" data-action="revStep" data-k="platform" data-d="1">+</button>
+          </div>
         </div>
         <div class="between"><span class="muted">${R.platformLine}</span><span class="num" data-out="platform-amt"></span></div>
         <div class="between"><b>${R.clubNet}</b><b class="num" data-out="net"></b></div>` : ''}
@@ -1329,6 +1353,13 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
     model: (el) => { const m = el.dataset.v; S.models[m] = !S.models[m]; if (!enabledModels().length) S.models[m] = true; render(); },
     catRule: () => { S.catRule = !S.catRule; render(); },
     revPlatform: () => { S.rev.showPlatform = !S.rev.showPlatform; render(); },
+    revStep: (el) => {
+      const input = document.querySelector(`input[data-rev="${el.dataset.k}"]`);
+      if (!input) return;
+      const step = Number(input.step); const dec = (input.step.split('.')[1] || '').length;
+      const next = Math.min(Number(input.max), Math.max(Number(input.min), Number(input.value) + step * Number(el.dataset.d)));
+      setRev(el.dataset.k, Number(next.toFixed(dec)), input);
+    },
     hideHow: () => { S.showHow = false; render(); },
     filter: (el) => { S.filter = el.dataset.v; render(); },
     startReq: (el) => { S.req = { car: el.dataset.id, start: null, days: 2, model: null }; go('request'); },
@@ -1366,6 +1397,15 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
     reset: () => { const l = S.lang; S = fresh(); S.lang = l; render(true); },
   };
 
+  const setRev = (k, value, input) => {
+    let val = value;
+    // keep Plus + Élite within 100%
+    if (k === 'plus') val = Math.min(val, 100 - S.rev.elite);
+    if (k === 'elite') val = Math.min(val, 100 - S.rev.plus);
+    if (input && Number(input.value) !== val) input.value = val;
+    S.rev[k] = val; updateRev();
+  };
+
   document.addEventListener('click', (e) => {
     const el = e.target.closest('[data-action]');
     if (!el || el.disabled) return;
@@ -1374,14 +1414,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
   });
   document.addEventListener('input', (e) => {
     const rk = e.target.dataset && e.target.dataset.rev;
-    if (rk) {
-      let val = Number(e.target.value);
-      // keep Plus + Élite within 100%
-      if (rk === 'plus') val = Math.min(val, 100 - S.rev.elite);
-      if (rk === 'elite') val = Math.min(val, 100 - S.rev.plus);
-      if (val !== Number(e.target.value)) e.target.value = val;
-      S.rev[rk] = val; updateRev(); return;
-    }
+    if (rk) { setRev(rk, Number(e.target.value), e.target); return; }
     const k = e.target.dataset && e.target.dataset.input;
     if (!k || !S.insp) return;
     S.insp[k] = Number(e.target.value) || 0;
