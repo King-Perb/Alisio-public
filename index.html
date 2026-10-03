@@ -28,6 +28,7 @@
   --accent-soft: #dcebf0;
   --picon: #b4472c;
   --picon-soft: #f6e3dc;
+  --c1: #0e5d78; --c2: #b4472c; --c3: #2f7a4b; --c4: #b07d12; --c5: #6a4f9a; --c6: #7c868b;
   --good: #2f7a4b;
   --good-soft: #dff0e4;
   --warn: #9a6a12;
@@ -45,6 +46,8 @@
     --accent: #5fb0cc; --accent-ink: #0d1a1f; --accent-soft: #173643;
     --picon: #e2795c; --picon-soft: #3a2119; --good: #6cc48f; --good-soft: #17301f;
     --warn: #e0b45a; --warn-soft: #33290f; --device: #050607;
+  --c1: #5fb0cc; --c2: #e2795c; --c3: #6cc48f; --c4: #e0b45a; --c5: #a78bdb; --c6: #93a0a5;
+    --c1: #5fb0cc; --c2: #e2795c; --c3: #6cc48f; --c4: #e0b45a; --c5: #a78bdb; --c6: #93a0a5;
     --shadow: 0 30px 60px -30px rgba(0, 0, 0, .8);
     color-scheme: dark;
   }
@@ -264,6 +267,27 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .howto div { background: var(--surface-2); border-radius: 12px; padding: 10px; display: grid; gap: 4px; font-size: 12px; color: var(--ink-2); }
 .howto b { font-family: var(--f-display); font-stretch: 120%; font-size: 13px; color: var(--ink); }
 
+/* revenue */
+.rev-total { display: grid; gap: 2px; }
+.rev-total b { font-family: var(--f-display); font-stretch: 122%; font-weight: 850; font-size: 34px; line-height: 1.05; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+.stack { display: flex; height: 14px; border-radius: 7px; overflow: hidden; background: var(--surface-2); gap: 2px; }
+.stack i { display: block; height: 100%; min-width: 0; transition: width .2s; }
+.legend { display: grid; gap: 7px; }
+.lg { display: grid; grid-template-columns: 10px 1fr auto auto; gap: 8px; align-items: center; font-size: 13px; }
+.lg .sw { width: 10px; height: 10px; border-radius: 3px; }
+.lg .v { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
+.lg .pc { color: var(--ink-3); font-size: 11.5px; width: 34px; text-align: right; font-variant-numeric: tabular-nums; }
+.lg .sub { grid-column: 2 / -1; font-size: 11.5px; color: var(--ink-3); margin-top: -5px; }
+.slider { display: grid; gap: 4px; }
+.slider .between span:last-child { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.slider input { width: 100%; accent-color: var(--accent); }
+.split { display: flex; height: 26px; border-radius: 8px; overflow: hidden; font-size: 11.5px; font-weight: 700; color: #fff; }
+.split span { display: grid; place-items: center; white-space: nowrap; padding: 0 6px; }
+.tier-table { display: grid; grid-template-columns: 1fr auto auto auto; gap: 6px 12px; font-size: 13px; font-variant-numeric: tabular-nums; }
+.tier-table .hd { font-size: 11px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .08em; }
+.tier-table .r { text-align: right; }
+.assume { font-size: 11.5px; color: var(--ink-3); }
+
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 
 /* ---------- phone-width: app goes full screen ---------- */
@@ -329,6 +353,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
     people: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2.5 20a5.5 5.5 0 0 1 11 0"/><path d="M14 20a4 4 0 0 1 7.5-2"/></svg>',
     pin: '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>',
     spark: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6"/></svg>',
+    euro: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6.5A7 7 0 1 0 18 17.5"/><path d="M4 10h10M4 14h10"/></svg>',
     info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8v.01"/></svg>',
   };
 
@@ -338,7 +363,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
       member: 'Socio', club: 'Club', language: 'Idioma', view: 'Vista', modelsLabel: 'Modelos de inspección activos',
       concept: 'Concepto de app · todos los datos, nombres y coches son de ejemplo.',
       brandSub: 'Cars Club · Gran Canaria',
-      tabs: { home: 'Inicio', explore: 'Explorar', swaps: 'Intercambios', events: 'Rutas', garage: 'Mi garaje', panel: 'Panel', requests: 'Solicitudes', inspections: 'Inspecciones', settings: 'Ajustes' },
+      tabs: { home: 'Inicio', explore: 'Explorar', swaps: 'Intercambios', events: 'Rutas', garage: 'Mi garaje', panel: 'Panel', requests: 'Solicitudes', inspections: 'Inspecciones', revenue: 'Ingresos', settings: 'Ajustes' },
       hello: 'Hola, Carlos', pts: 'pts', perDay: '/día', tier: 'Socio Plus', expiring: 'caducan el 31 dic', earnedYear: 'ganados este año',
       howTitle: 'Cómo funciona', how: [['Comparte', 'Pon tu coche a disposición de otros socios verificados.'], ['Gana puntos', 'Cada día que lo conduce otro socio sumas puntos.'], ['Conduce', 'Usa tus puntos para probar los coches de otros.']],
       hide: 'Ocultar', nextSwap: 'Tu próximo intercambio', yourCar: 'Tu coche', nextRoute: 'Próxima ruta del club',
@@ -390,12 +415,22 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
       recommend: 'Sugerencia para el piloto', recommendText: 'Entre socios por defecto, y taller asociado obligatorio para coches Superdeportivo y Exótico.',
       catRule: 'Taller obligatorio para Superdeportivo y Exótico',
       demoReset: 'Reiniciar demo', disabledModel: 'Desactivado por el club',
+      rev: {
+        title: 'Ingresos del club', perMonth: '/mes', perYear: 'al año', estYear: 'Estimación anual', estNote: 'Piloto con supuestos de ejemplo. Mueve los controles para ajustarlos.',
+        src: { fees: 'Cuotas de socio', points: 'Venta de puntos', garage: 'Margen en inspecciones de taller', events: 'Rutas y eventos de pago', sponsors: 'Patrocinadores y colaboradores', damage: 'Gestión de partes de daños' },
+        subs: { fees: '{n} socios · cuotas por nivel', points: '{p} pts comprados/mes a {e} €/pt', garage: '{h} entregas/mes en taller × {m} € de margen', events: '{n} eventos × {a} socios × {f} €', sponsors: '{n} colaboradores × {f} €/mes', damage: '{n} partes/mes × {f} €' },
+        oneSwap: 'Un intercambio, paso a paso', swapEx: 'Porsche 911 · 2 días de fin de semana', driverPays: 'El socio paga', ownerGets: 'Propietario (70%)', clubKeeps: 'Club (30%)', clubKeepsNote: 'Los puntos que retiene el club salen de circulación: los socios que conducen más de lo que prestan compran puntos, y eso es dinero real para el club.', garageLine: 'Entrega + devolución en taller', garageSplit: 'taller {g} € · club {c} €',
+        tiers: 'Niveles de socio', tier: 'Nivel', fee: 'Cuota/año', pts: 'Puntos/año', mix: 'Socios',
+        assumptions: 'Supuestos', members: 'Socios en el piloto', plusShare: 'Socios Plus', eliteShare: 'Socios Élite', swaps: 'Intercambios por socio al mes', ptsSwap: 'Puntos medios por intercambio', bought: 'Puntos pagados con compra', ptPrice: 'Precio del punto extra', garageShare: 'Intercambios con entrega en taller', margin: 'Margen del club por entrega en taller', events: 'Eventos de pago al mes', eventPeople: 'Asistentes por evento', eventFee: 'Precio por asistente', sponsors: 'Colaboradores (seguros, detailing, talleres…)', sponsorFee: 'Aportación por colaborador', dmgRate: 'Intercambios con parte de daños', dmgFee: 'Tasa de gestión por parte',
+        platformToggle: 'Mostrar reparto con la plataforma', platform: 'Cuota de la plataforma (software)', clubNet: 'Neto para el club', platformLine: 'Plataforma',
+        existingFee: '¿El club ya cobra una cuota? Los niveles pueden sumarse a la cuota actual en lugar de sustituirla.',
+      },
     },
     en: {
       member: 'Member', club: 'Club', language: 'Language', view: 'View', modelsLabel: 'Active inspection models',
       concept: 'App concept · all data, names and cars are examples.',
       brandSub: 'Cars Club · Gran Canaria',
-      tabs: { home: 'Home', explore: 'Explore', swaps: 'Swaps', events: 'Drives', garage: 'My garage', panel: 'Dashboard', requests: 'Requests', inspections: 'Inspections', settings: 'Settings' },
+      tabs: { home: 'Home', explore: 'Explore', swaps: 'Swaps', events: 'Drives', garage: 'My garage', panel: 'Dashboard', requests: 'Requests', inspections: 'Inspections', revenue: 'Revenue', settings: 'Settings' },
       hello: 'Hi, Carlos', pts: 'pts', perDay: '/day', tier: 'Plus member', expiring: 'expire on 31 Dec', earnedYear: 'earned this year',
       howTitle: 'How it works', how: [['Share', 'Make your car available to other verified members.'], ['Earn points', 'Every day another member drives it, you earn points.'], ['Drive', 'Use your points to try other members’ cars.']],
       hide: 'Hide', nextSwap: 'Your next swap', yourCar: 'Your car', nextRoute: 'Next club drive',
@@ -447,6 +482,16 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
       recommend: 'Suggestion for the pilot', recommendText: 'Between members by default, with the partner garage required for Supercar and Exotic cars.',
       catRule: 'Garage required for Supercar and Exotic',
       demoReset: 'Reset demo', disabledModel: 'Turned off by the club',
+      rev: {
+        title: 'Club revenue', perMonth: '/month', perYear: 'per year', estYear: 'Yearly estimate', estNote: 'Pilot with example assumptions. Move the controls to adjust them.',
+        src: { fees: 'Membership fees', points: 'Point sales', garage: 'Margin on garage inspections', events: 'Paid drives & events', sponsors: 'Sponsors & partners', damage: 'Damage report handling' },
+        subs: { fees: '{n} members · fees by tier', points: '{p} pts bought/month at €{e}/pt', garage: '{h} garage handovers/month × €{m} margin', events: '{n} events × {a} members × €{f}', sponsors: '{n} partners × €{f}/month', damage: '{n} reports/month × €{f}' },
+        oneSwap: 'One swap, step by step', swapEx: 'Porsche 911 · 2 weekend days', driverPays: 'Member pays', ownerGets: 'Owner (70%)', clubKeeps: 'Club (30%)', clubKeepsNote: 'Points the club keeps leave circulation: members who drive more than they lend buy points, and that is real money for the club.', garageLine: 'Garage pick-up + return', garageSplit: 'garage €{g} · club €{c}',
+        tiers: 'Membership tiers', tier: 'Tier', fee: 'Fee/year', pts: 'Points/year', mix: 'Members',
+        assumptions: 'Assumptions', members: 'Members in the pilot', plusShare: 'Plus members', eliteShare: 'Élite members', swaps: 'Swaps per member per month', ptsSwap: 'Average points per swap', bought: 'Points paid by purchase', ptPrice: 'Price of an extra point', garageShare: 'Swaps with garage handover', margin: 'Club margin per garage handover', events: 'Paid events per month', eventPeople: 'Attendees per event', eventFee: 'Price per attendee', sponsors: 'Partners (insurance, detailing, garages…)', sponsorFee: 'Contribution per partner', dmgRate: 'Swaps with a damage report', dmgFee: 'Handling fee per report',
+        platformToggle: 'Show split with the platform', platform: 'Platform fee (software)', clubNet: 'Net for the club', platformLine: 'Platform',
+        existingFee: 'Does the club already charge a fee? Tiers can top up the current fee instead of replacing it.',
+      },
     },
   };
 
@@ -467,6 +512,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
       panel: ['Panel del club', 'Lo que el equipo del club ve a diario: actividad, inspecciones de hoy y partes de daños abiertos.', ['Datos de ejemplo para un piloto pequeño']],
       requests: ['Solicitudes', 'Altas de socios nuevos y solicitudes que requieren aprobación del club.', ['El club mantiene el control de quién entra', 'Reglas automáticas: p. ej. primer intercambio exótico']],
       inspections: ['Inspecciones', 'Agenda de entregas y devoluciones. Indica cuáles necesitan personal según el modelo elegido.', []],
+      revenue: ['De dónde salen los ingresos', 'Calculadora del piloto: cuotas, venta de puntos, margen en inspecciones, eventos, colaboradores y gestión de daños. Todo son supuestos de ejemplo que se ajustan en directo.', ['Los puntos que retiene el club (30%) generan compras de puntos', 'Los colaboradores suelen ser el ingreso más fácil para un club de propietarios', 'Opcional: reparto con la plataforma']],
       settings: ['Elegid el modelo de inspección', 'Comparativa de los tres modelos. Se pueden combinar; lo que activéis aquí es lo que ve el socio al pedir un coche.', ['Taller asociado', 'Equipo del club', 'Entre socios']],
     },
     en: {
@@ -484,6 +530,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
       panel: ['Club dashboard', 'What the club team sees every day: activity, today’s inspections and open damage reports.', ['Example data for a small pilot']],
       requests: ['Requests', 'New member applications and requests that need club approval.', ['The club controls who gets in', 'Automatic rules, e.g. a first exotic swap']],
       inspections: ['Inspections', 'Schedule of pick-ups and returns, showing which ones need staff depending on the model.', []],
+      revenue: ['Where the revenue comes from', 'Pilot calculator: fees, point sales, inspection margin, events, partners and damage handling. All example assumptions, adjustable live.', ['Points the club keeps (30%) drive point purchases', 'Partners are often the easiest revenue for an owners\u2019 club', 'Optional: split with the platform']],
       settings: ['Choose the inspection model', 'Comparison of the three models. They can be combined; what you turn on here is what members see when requesting a car.', ['Partner garage', 'Club team', 'Between members']],
     },
   };
@@ -531,6 +578,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
     filter: 'all',
     balance: 1240,
     rsvp: { e1: true },
+    rev: { members: 40, plus: 35, elite: 15, swaps: 0.6, ptsSwap: 240, bought: 25, ptPrice: 1, garageShare: 40, margin: 10, events: 1, eventPeople: 15, eventFee: 25, sponsors: 2, sponsorFee: 150, dmgRate: 3, dmgFee: 50, showPlatform: false, platform: 10 },
     borrow: {},
     listed: { m4: true, supra: false },
     req: null,
@@ -1072,6 +1120,138 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
       <div class="card tight">${['garage', 'club', 'peer'].map((m) => `<div class="between"><span class="row" style="gap:8px"><span class="ico" style="width:22px;height:22px;color:var(--accent)">${modelIcon(m)}</span>${t().models[m]}</span><span class="pill ${m === 'peer' ? '' : 'accent'}">${m === 'peer' ? t().noStaff : t().staffNeeded}</span></div>`).join('')}</div>`,
   });
 
+  const TIERS = [['Socio', 300, 600], ['Plus', 900, 1200], ['Élite', 2000, 2500]];
+  const REV_KEYS = ['fees', 'points', 'garage', 'events', 'sponsors', 'damage'];
+  const euro = (n) => `${fmt(Math.round(n))} €`;
+  const fill = (str, o) => str.replace(/\{(\w+)\}/g, (_, k) => o[k]);
+  const computeRev = () => {
+    const r = S.rev;
+    const nE = Math.round(r.members * r.elite / 100);
+    const nP = Math.min(r.members - nE, Math.round(r.members * r.plus / 100));
+    const nS = r.members - nP - nE;
+    const swapsM = r.members * r.swaps;
+    const ptsM = swapsM * r.ptsSwap;
+    const boughtPts = ptsM * r.bought / 100;
+    const handovers = swapsM * r.garageShare / 100 * 2;
+    const reports = swapsM * r.dmgRate / 100;
+    const v = {
+      fees: (nS * TIERS[0][1] + nP * TIERS[1][1] + nE * TIERS[2][1]) / 12,
+      points: boughtPts * r.ptPrice,
+      garage: handovers * r.margin,
+      events: r.events * r.eventPeople * r.eventFee,
+      sponsors: r.sponsors * r.sponsorFee,
+      damage: reports * r.dmgFee,
+    };
+    const total = REV_KEYS.reduce((a, k) => a + v[k], 0);
+    return { v, total, nS, nP, nE, swapsM, ptsM, boughtPts, handovers, reports };
+  };
+  const SLIDERS = [
+    ['members', 10, 150, 5, (x) => fmt(x)],
+    ['plusShare', 0, 80, 5, (x) => `${x}%`, 'plus'],
+    ['eliteShare', 0, 50, 5, (x) => `${x}%`, 'elite'],
+    ['swaps', 0, 3, 0.1, (x) => x.toFixed(1)],
+    ['ptsSwap', 60, 600, 20, (x) => `${fmt(x)} pts`],
+    ['bought', 0, 80, 5, (x) => `${x}%`],
+    ['ptPrice', 0.5, 2, 0.05, (x) => `${x.toFixed(2).replace('.', S.lang === 'es' ? ',' : '.')} €`],
+    ['garageShare', 0, 100, 5, (x) => `${x}%`],
+    ['margin', 0, 30, 1, (x) => `${x} €`],
+    ['events', 0, 4, 1, (x) => `${x}`],
+    ['eventPeople', 5, 60, 1, (x) => `${x}`],
+    ['eventFee', 0, 150, 5, (x) => `${x} €`],
+    ['sponsors', 0, 10, 1, (x) => `${x}`],
+    ['sponsorFee', 0, 1000, 50, (x) => `${fmt(x)} €`],
+    ['dmgRate', 0, 15, 1, (x) => `${x}%`],
+    ['dmgFee', 0, 150, 10, (x) => `${x} €`],
+  ];
+  const sliderKey = (sl) => sl[5] || sl[0];
+
+  // patch numbers in place so dragging a slider never redraws the screen
+  const updateRev = () => {
+    const root = document.getElementById('rev');
+    if (!root) return;
+    const R = t().rev; const c = computeRev(); const r = S.rev;
+    const fee = r.showPlatform ? c.total * r.platform / 100 : 0;
+    const set = (k, txt) => { const el = root.querySelector(`[data-out="${k}"]`); if (el) el.textContent = txt; };
+    set('month', `${euro(c.total)} ${R.perMonth}`);
+    set('year', euro(c.total * 12));
+    REV_KEYS.forEach((k, i) => {
+      set(`v-${k}`, euro(c.v[k]));
+      set(`pc-${k}`, c.total ? `${Math.round(c.v[k] / c.total * 100)}%` : '0%');
+      const bar = root.querySelector(`[data-bar="${k}"]`); if (bar) bar.style.width = c.total ? `${c.v[k] / c.total * 100}%` : '0';
+    });
+    set('sub-fees', fill(R.subs.fees, { n: r.members }));
+    set('sub-points', fill(R.subs.points, { p: fmt(Math.round(c.boughtPts)), e: r.ptPrice.toFixed(2).replace('.', S.lang === 'es' ? ',' : '.') }));
+    set('sub-garage', fill(R.subs.garage, { h: fmt(Math.round(c.handovers)), m: r.margin }));
+    set('sub-events', fill(R.subs.events, { n: r.events, a: r.eventPeople, f: r.eventFee }));
+    set('sub-sponsors', fill(R.subs.sponsors, { n: r.sponsors, f: fmt(r.sponsorFee) }));
+    set('sub-damage', fill(R.subs.damage, { n: c.reports.toFixed(1).replace('.', S.lang === 'es' ? ',' : '.'), f: r.dmgFee }));
+    set('mix-0', fmt(c.nS)); set('mix-1', fmt(c.nP)); set('mix-2', fmt(c.nE));
+    SLIDERS.forEach((sl) => set(`s-${sl[0]}`, sl[4](r[sliderKey(sl)])));
+    set('platform-v', `${r.platform}%`);
+    set('platform-amt', `−${euro(fee * 12)} ${R.perYear}`);
+    set('net', `${euro((c.total - fee) * 12)} ${R.perYear}`);
+  };
+
+  screens.revenue = () => {
+    const R = t().rev; const r = S.rev;
+    const swapPts = 330; const owner = Math.round(swapPts * 0.7); const club = swapPts - owner;
+    const garageFee = 35; const clubPart = r.margin; const garagePart = garageFee - clubPart;
+    return {
+      title: R.title,
+      body: `<div id="rev" style="display:flex;flex-direction:column;gap:14px">
+      <div class="card">
+        <span class="eyebrow">${R.estYear}</span>
+        <div class="rev-total"><b data-out="year"></b><span class="muted" data-out="month"></span></div>
+        <div class="stack">${REV_KEYS.map((k, i) => `<i data-bar="${k}" style="background:var(--c${i + 1})"></i>`).join('')}</div>
+        <div class="legend">${REV_KEYS.map((k, i) => `
+          <div class="lg"><span class="sw" style="background:var(--c${i + 1})"></span><span>${R.src[k]}</span><span class="v" data-out="v-${k}"></span><span class="pc" data-out="pc-${k}"></span><span class="sub" data-out="sub-${k}"></span></div>`).join('')}
+        </div>
+        <span class="assume">${R.estNote}</span>
+      </div>
+
+      <div class="card">
+        <span class="h3">${R.oneSwap}</span>
+        <span class="faint">${R.swapEx}</span>
+        <div class="between"><span>${R.driverPays}</span><b class="num">${fmt(swapPts)} pts</b></div>
+        <div class="split"><span style="flex:${owner};background:var(--c3)">${R.ownerGets} · ${owner}</span><span style="flex:${club};background:var(--c1)">${R.clubKeeps} · ${club}</span></div>
+        <span class="assume">${R.clubKeepsNote}</span>
+        <div class="divider"></div>
+        <div class="between"><span>${R.garageLine}</span><b class="num">${garageFee * 2} €</b></div>
+        <span class="faint">${fill(R.garageSplit, { g: garagePart * 2, c: clubPart * 2 })}</span>
+      </div>
+
+      <div class="card">
+        <span class="h3">${R.tiers}</span>
+        <div class="tier-table">
+          <span class="hd">${R.tier}</span><span class="hd r">${R.fee}</span><span class="hd r">${R.pts}</span><span class="hd r">${R.mix}</span>
+          ${TIERS.map(([n, f, p], i) => `<span>${n}</span><span class="r">${fmt(f)} €</span><span class="r">${fmt(p)}</span><span class="r" data-out="mix-${i}"></span>`).join('')}
+        </div>
+        <span class="assume">${R.existingFee}</span>
+      </div>
+
+      <div class="card">
+        <span class="h3">${R.assumptions}</span>
+        ${SLIDERS.map((sl) => `
+        <div class="slider">
+          <div class="between"><label for="rv-${sl[0]}">${R[sl[0]]}</label><span data-out="s-${sl[0]}"></span></div>
+          <input id="rv-${sl[0]}" type="range" min="${sl[1]}" max="${sl[2]}" step="${sl[3]}" value="${r[sliderKey(sl)]}" data-rev="${sliderKey(sl)}">
+        </div>`).join('')}
+      </div>
+
+      <div class="card">
+        <div class="between"><span>${R.platformToggle}</span><button class="switch" aria-label="${R.platformToggle}" aria-pressed="${r.showPlatform}" data-action="revPlatform"></button></div>
+        ${r.showPlatform ? `
+        <div class="slider">
+          <div class="between"><label for="rv-platform">${R.platform}</label><span data-out="platform-v"></span></div>
+          <input id="rv-platform" type="range" min="0" max="30" step="1" value="${r.platform}" data-rev="platform">
+        </div>
+        <div class="between"><span class="muted">${R.platformLine}</span><span class="num" data-out="platform-amt"></span></div>
+        <div class="between"><b>${R.clubNet}</b><b class="num" data-out="net"></b></div>` : ''}
+      </div>
+      </div>`,
+    };
+  };
+
   screens.settings = () => {
     const scores = { garage: { cost: 1, trust: 5, effort: 2, speed: 2 }, club: { cost: 3, trust: 4, effort: 5, speed: 3 }, peer: { cost: 5, trust: 3, effort: 1, speed: 5 } };
     const dots = (n) => `<span class="dots">${[1, 2, 3, 4, 5].map((i) => `<i class="${i <= n ? 'on' : ''}"></i>`).join('')}</span>`;
@@ -1104,7 +1284,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 
   // ---------------------------------------------------------------- render
   const MEMBER_TABS = [['home', I.home], ['explore', I.car], ['swaps', I.swap], ['events', I.flag], ['garage', I.garage]];
-  const CLUB_TABS = [['panel', I.gauge], ['requests', I.inbox], ['inspections', I.clip], ['settings', I.cog]];
+  const CLUB_TABS = [['panel', I.gauge], ['requests', I.inbox], ['inspections', I.clip], ['revenue', I.euro], ['settings', I.cog]];
   const TAB_OF = { car: 'explore', request: 'explore', swap: 'swaps', inspection: 'swaps', ledger: 'garage', addCar: 'garage' };
 
   const renderNotes = () => {
@@ -1136,6 +1316,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
     bar.className = 'tabbar' + (tabs.length === 4 ? ' four' : '');
     bar.innerHTML = tabs.map(([id, icon]) => `<button class="tab" data-action="tab" data-v="${id}" ${current === id ? 'aria-current="page"' : ''}>${icon}<span>${t().tabs[id]}</span></button>`).join('');
     renderNotes();
+    updateRev();
   };
 
   // ---------------------------------------------------------------- actions
@@ -1147,6 +1328,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
     mode: (el) => { S.mode = el.dataset.v; S.history = []; S.route = { name: S.mode === 'club' ? 'panel' : 'home' }; render(true); },
     model: (el) => { const m = el.dataset.v; S.models[m] = !S.models[m]; if (!enabledModels().length) S.models[m] = true; render(); },
     catRule: () => { S.catRule = !S.catRule; render(); },
+    revPlatform: () => { S.rev.showPlatform = !S.rev.showPlatform; render(); },
     hideHow: () => { S.showHow = false; render(); },
     filter: (el) => { S.filter = el.dataset.v; render(); },
     startReq: (el) => { S.req = { car: el.dataset.id, start: null, days: 2, model: null }; go('request'); },
@@ -1191,6 +1373,15 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
     if (fn) { e.preventDefault(); fn(el); }
   });
   document.addEventListener('input', (e) => {
+    const rk = e.target.dataset && e.target.dataset.rev;
+    if (rk) {
+      let val = Number(e.target.value);
+      // keep Plus + Élite within 100%
+      if (rk === 'plus') val = Math.min(val, 100 - S.rev.elite);
+      if (rk === 'elite') val = Math.min(val, 100 - S.rev.plus);
+      if (val !== Number(e.target.value)) e.target.value = val;
+      S.rev[rk] = val; updateRev(); return;
+    }
     const k = e.target.dataset && e.target.dataset.input;
     if (!k || !S.insp) return;
     S.insp[k] = Number(e.target.value) || 0;
