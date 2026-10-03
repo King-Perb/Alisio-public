@@ -291,6 +291,15 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .slider input[type=range]::-moz-range-thumb { pointer-events: auto; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); border: 3px solid var(--surface); box-shadow: 0 1px 4px rgba(0, 0, 0, .35); cursor: grab; }
 .slider input[type=range]:focus-visible { outline: none; }
 .slider input[type=range]:focus-visible::-webkit-slider-thumb { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* sticky summary: overlaps the top of the total card (negative margin) and only shows once that card scrolls away */
+.rev-sticky { position: sticky; top: 0; z-index: 6; height: 54px; margin-bottom: calc(-54px - 14px); display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 14px; background: var(--ink); color: var(--bg); border-radius: 14px; box-shadow: 0 -10px 0 0 var(--bg), 0 8px 20px -10px rgba(0, 0, 0, .5); opacity: 0; transform: translateY(-8px); pointer-events: none; transition: opacity .18s, transform .18s; }
+.rev-sticky.on { opacity: 1; transform: none; }
+.rev-sticky .l { display: grid; line-height: 1.15; min-width: 0; }
+.rev-sticky .l span { font-size: 10.5px; text-transform: uppercase; letter-spacing: .1em; opacity: .7; }
+.rev-sticky .l b { font-family: var(--f-display); font-stretch: 120%; font-weight: 850; font-size: 21px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.rev-sticky .r { font-size: 13px; font-weight: 600; opacity: .85; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.bump { animation: bump .35s ease-out; }
+@keyframes bump { 0% { color: var(--picon); } 100% { color: inherit; } }
 .slider-hint { font-size: 11.5px; color: var(--ink-3); }
 .split { display: flex; height: 26px; border-radius: 8px; overflow: hidden; font-size: 11.5px; font-weight: 700; color: #fff; }
 .split span { display: grid; place-items: center; white-space: nowrap; padding: 0 6px; }
@@ -1185,6 +1194,10 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
     const set = (k, txt) => { const el = root.querySelector(`[data-out="${k}"]`); if (el) el.textContent = txt; };
     set('month', `${euro(c.total)} ${R.perMonth}`);
     set('year', euro(c.total * 12));
+    const ys = root.querySelector('[data-out="year-s"]');
+    if (ys && ys.textContent && ys.textContent !== euro(c.total * 12)) { ys.classList.remove('bump'); void ys.offsetWidth; ys.classList.add('bump'); }
+    set('year-s', euro(c.total * 12));
+    set('month-s', `${euro(c.total)} ${R.perMonth}`);
     REV_KEYS.forEach((k, i) => {
       set(`v-${k}`, euro(c.v[k]));
       set(`pc-${k}`, c.total ? `${Math.round(c.v[k] / c.total * 100)}%` : '0%');
@@ -1214,7 +1227,11 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
     return {
       title: R.title,
       body: `<div id="rev" style="display:flex;flex-direction:column;gap:14px">
-      <div class="card">
+      <div class="rev-sticky" id="rev-sticky" aria-hidden="true">
+        <div class="l"><span>${R.estYear}</span><b data-out="year-s"></b></div>
+        <span class="r" data-out="month-s"></span>
+      </div>
+      <div class="card" id="rev-total">
         <span class="eyebrow">${R.estYear}</span>
         <div class="rev-total"><b data-out="year"></b><span class="muted" data-out="month"></span></div>
         <div class="stack">${REV_KEYS.map((k, i) => `<i data-bar="${k}" style="background:var(--c${i + 1})"></i>`).join('')}</div>
@@ -1341,6 +1358,19 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
     bar.innerHTML = tabs.map(([id, icon]) => `<button class="tab" data-action="tab" data-v="${id}" ${current === id ? 'aria-current="page"' : ''}>${icon}<span>${t().tabs[id]}</span></button>`).join('');
     renderNotes();
     updateRev();
+    watchRevTotal();
+  };
+
+  let revObserver = null;
+  const watchRevTotal = () => {
+    if (revObserver) { revObserver.disconnect(); revObserver = null; }
+    const card = document.getElementById('rev-total'); const bar = document.getElementById('rev-sticky');
+    if (!card || !bar || !('IntersectionObserver' in window)) return;
+    revObserver = new IntersectionObserver(([entry]) => {
+      const show = entry.intersectionRatio < 0.35 && entry.boundingClientRect.top < entry.rootBounds.top + 20;
+      bar.classList.toggle('on', show);
+    }, { root: document.getElementById('main'), threshold: [0, 0.35, 0.6, 1] });
+    revObserver.observe(card);
   };
 
   // ---------------------------------------------------------------- actions
